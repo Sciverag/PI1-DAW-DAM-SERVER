@@ -10,13 +10,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 
+/**
+ * Controlador para la gestión de usuarios.
+ * Este controlador maneja las solicitudes relacionadas con los usuarios de la aplicación.
+ */
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioService usuarioService; // Servicio para la gestión de usuarios
 
+    /**
+     * Obtiene la lista de usuarios.
+     * @return Una ResponseEntity que contiene la lista de usuarios si la operación es exitosa, o un código de error si ocurre una excepción SQL.
+     */
     @GetMapping("/")
     public ResponseEntity<?> getUsuarios(){
         try {
