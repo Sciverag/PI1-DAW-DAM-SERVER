@@ -12,8 +12,7 @@ import java.util.Date;
 @Builder
 @ToString
 public class Usuario {
-
-    private int id;
+    private String nombreUsuario;
     private String nombre;
     private String apellido;
     private String email;
@@ -32,12 +31,12 @@ public class Usuario {
 
         Usuario usuario = (Usuario) object;
 
-        return id==usuario.getId();
+        return nombreUsuario.equals(usuario.getNombreUsuario());
     }
 
     @Override
     public int hashCode(){
-        return id;
+        return nombreUsuario.hashCode();
     }
 
 }

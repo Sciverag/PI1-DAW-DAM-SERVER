@@ -11,5 +11,6 @@ import lombok.*;
 public class Capitulo extends Contenido{
 
     private int idSerie;
+    private int temporada;
 
 }
