@@ -10,8 +10,6 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public abstract class Contenido {
 
@@ -43,7 +41,7 @@ public abstract class Contenido {
     /**
      * La puntuación media del contenido.
      */
-    private int puntMedia;
+    private float puntMedia;
 
     /**
      * La fecha de estreno del contenido.
@@ -53,7 +51,7 @@ public abstract class Contenido {
     /**
      * La duración del contenido en minutos.
      */
-    private int duracion_minutos;
+    private float duracion_minutos;
 
     /**
      * El director del contenido.
@@ -74,6 +72,20 @@ public abstract class Contenido {
      * La fecha de la última modificación del contenido.
      */
     private Date changedTs;
+
+    public Contenido(int id, String titulo, String descripcion, String URL_image, String actores, float puntMedia, Date fechaEstreno, float duracion_minutos, String director, int idGenero, int idTarifa) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.URL_image = URL_image;
+        this.actores = actores;
+        this.puntMedia = puntMedia;
+        this.fechaEstreno = fechaEstreno;
+        this.duracion_minutos = duracion_minutos;
+        this.director = director;
+        this.idGenero = idGenero;
+        this.idTarifa = idTarifa;
+    }
 
     /**
      * Compara este objeto con otro para determinar si son iguales.

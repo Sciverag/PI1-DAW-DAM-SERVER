@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +33,11 @@ public class UsuarioRepository implements IUsuarioRepository{
     @Override
     public List<Usuario> getUsuarios() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();
-        String query = "SELECT * FROM USUARIO";
+        String query = "{call OBTENER_USUARIOS(?,?,?,?)}";
 
         try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()){
-            ResultSet rs = statement.executeQuery(query);
+             CallableStatement cs = connection.prepareCall(query)){
+            ResultSet rs = cs.executeQuery();
             while (rs.next()) {
                 usuarios.add(Usuario.builder()
                         .nombreUsuario(rs.getString(1))

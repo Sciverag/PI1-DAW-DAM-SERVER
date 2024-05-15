@@ -10,9 +10,6 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @ToString
 public class Pelicula extends Contenido {
 
@@ -21,4 +18,11 @@ public class Pelicula extends Contenido {
      */
     private Date disponible_hasta;
 
+    public Pelicula(int id, String titulo, String descripcion, String URL_image, String actores, float puntMedia, Date fechaEstreno, float duracion_minutos, String director, int idGenero, int idTarifa, Date disponible_hasta) {
+        super(id, titulo, descripcion, URL_image, actores, puntMedia, fechaEstreno, duracion_minutos, director, idGenero, idTarifa);
+//        super(id, titulo, descripcion, URL_image, actores, puntMedia, fechaEstreno, duracion_minutos, director, idGenero, idTarifa);
+        this.disponible_hasta = disponible_hasta;
+    }
 }
+
+
