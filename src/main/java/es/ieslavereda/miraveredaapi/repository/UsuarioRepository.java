@@ -14,14 +14,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que implementa la interfaz IUsuarioRepository y proporciona acceso a los datos de usuario en la base de datos.
+ */
 @Repository
 public class UsuarioRepository implements IUsuarioRepository{
 
+    /**
+     * Fuente de datos Oracle que se utilizará para acceder a la base de datos.
+     */
     @Autowired
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
 
+    /**
+     * Obtiene la lista de usuarios.
+     * @return La lista de usuarios.
+     * @throws SQLException Si ocurre un error al obtener la lista de usuarios.
+     */
     @Override
     public List<Usuario> getUsuarios() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();

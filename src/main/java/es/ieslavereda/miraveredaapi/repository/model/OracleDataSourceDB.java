@@ -6,8 +6,18 @@ import org.springframework.context.annotation.Configuration;
 
 import java.sql.SQLException;
 
+/**
+ * Configuración para el DataSource de Oracle.
+ */
 @Configuration
 public class OracleDataSourceDB {
+
+    /**
+     * Crea y configura una instancia de OracleDataSource.
+     *
+     * @return Una instancia configurada de OracleDataSource.
+     * @throws SQLException Si ocurre un error al configurar el DataSource.
+     */
     @Bean(name = "BBDD")
     public static OracleDataSource getOracleDataSource() throws SQLException {
         OracleDataSource oracleDS = new OracleDataSource();
