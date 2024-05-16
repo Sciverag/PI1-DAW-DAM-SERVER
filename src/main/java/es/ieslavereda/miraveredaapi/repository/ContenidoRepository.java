@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,11 +28,17 @@ public class ContenidoRepository implements IContenidoRepository{
     @Autowired
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
+    @Autowired
+    private CortoRepository cortoRepository;
+    @Autowired
+    private PeliculaRepository peliculaRepository;
+    @Autowired
+    private CapituloRepository capituloRepository;
 
 
     @Override
     public List<Contenido> getContenidos() throws SQLException {
-        String query = "select * from CONTENIDO";
+        /*String query = "select * from CONTENIDO";
         List<Contenido> contenidos = new ArrayList<Contenido>();
 
         try (Connection con = dataSource.getConnection();
@@ -53,6 +60,18 @@ public class ContenidoRepository implements IContenidoRepository{
                         rs.getInt(11)));
             }
         }
+        return contenidos;
+        */
+        cortoRepository = new CortoRepository();
+        peliculaRepository = new PeliculaRepository();
+        capituloRepository = new CapituloRepository();
+
+         List<Contenido> contenidos = new ArrayList<>();
+         contenidos.addAll(cortoRepository.getCortos());
+         contenidos.addAll(peliculaRepository.getPeliculas());
+         contenidos.addAll(capituloRepository.getCapitulos());
+
+        Collections.shuffle(contenidos);
         return contenidos;
     }
 
