@@ -31,11 +31,6 @@ public class LineaFactura {
     private int idFactura;
 
     /**
-     * La fecha de la última modificación de la línea de factura.
-     */
-    private Date changedTs;
-
-    /**
      * Compara este objeto con otro para determinar si son iguales.
      * @param object El objeto con el que se va a comparar.
      * @return true si los objetos son iguales (tienen el mismo ID), false en caso contrario.
