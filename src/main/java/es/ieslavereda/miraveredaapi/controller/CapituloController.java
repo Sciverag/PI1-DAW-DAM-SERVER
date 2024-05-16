@@ -1,7 +1,7 @@
 package es.ieslavereda.miraveredaapi.controller;
 
-import es.ieslavereda.miraveredaapi.repository.model.Corto;
-import es.ieslavereda.miraveredaapi.service.CortoService;
+import es.ieslavereda.miraveredaapi.repository.model.Capitulo;
+import es.ieslavereda.miraveredaapi.service.CapituloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,29 +13,29 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping("/contenido/corto")
-public class CortoController {
+@RequestMapping("/contenido/capitulo")
+public class CapituloController {
 
     @Autowired
-    CortoService cortoService;
+    private CapituloService capituloService;
 
     @GetMapping("/")
-    public ResponseEntity<?> getCortos(){
+    public ResponseEntity<?> getCapitulos() {
         try {
-            return new ResponseEntity<>(cortoService.getCortos(), HttpStatus.OK);
+            return new ResponseEntity<>(capituloService.getCapitulos(), HttpStatus.OK);
         } catch (SQLException e){
             return Response.response(e);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCortoById(@PathVariable("id") int id){
+    public ResponseEntity<?> getPeliculaById(@PathVariable("id") int id){
         try {
-            Corto corto = (Corto)cortoService.getCortoById(id);
-            if (corto==null){
-                return new ResponseEntity<>("Corto no encontrado", HttpStatus.NOT_FOUND);
+            Capitulo capitulo = (Capitulo) capituloService.getCapituloByid(id);
+            if (capitulo==null){
+                return new ResponseEntity<>("Capitulo no encontrado", HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(corto, HttpStatus.OK);
+            return new ResponseEntity<>(capitulo, HttpStatus.OK);
         } catch (SQLException e){
             return Response.response(e);
         }

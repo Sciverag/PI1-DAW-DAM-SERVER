@@ -11,5 +11,4 @@ import java.util.List;
 public interface IContenidoRepository {
 
     public List<Contenido> getContenidos() throws SQLException;
-    public List<Contenido> getContenidosByTag() throws SQLException;
 }

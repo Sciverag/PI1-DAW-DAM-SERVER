@@ -106,8 +106,14 @@ public class UsuarioRepository implements IUsuarioRepository{
             ResultSet rs = ps.executeQuery();
             rs.next();
             usuario.setNombreUsuario(rs.getString(1));
-            //usuario.set
-
+            usuario.setContrasenya(rs.getString(2));
+            usuario.setDomicilio(rs.getString(3));
+            usuario.setCP(rs.getInt(4));
+            usuario.setEmail(rs.getString(5));
+            usuario.setFechaNacimiento(rs.getDate(6));
+            usuario.setNombre(rs.getString(7));
+            usuario.setApellido(rs.getString(8));
+            usuario.setNum_tarjeta(rs.getInt(9));
         }
         return usuario;
     }
