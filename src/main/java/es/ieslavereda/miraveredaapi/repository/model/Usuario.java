@@ -65,6 +65,11 @@ public class Usuario {
     private Date changedTs;
 
     /**
+     * Url de la imagen del usuario.
+     */
+    private String url_imagen;
+
+    /**
      * Compara este objeto con otro para determinar si son iguales.
      * @param object El objeto con el que se va a comparar.
      * @return true si los objetos son iguales (tienen el mismo nombre de usuario), false en caso contrario.
