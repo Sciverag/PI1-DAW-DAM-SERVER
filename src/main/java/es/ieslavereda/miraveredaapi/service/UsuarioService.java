@@ -25,4 +25,12 @@ public class UsuarioService {
     public List<Usuario> getUsuarios() throws SQLException {
         return usuarioRepository.getUsuarios();
     }
+
+    public int deleteUsuario(String tag) throws SQLException {
+        return usuarioRepository.deleteUsuario(tag);
+    }
+
+    public int actualizarUsuario(Usuario usuario) throws SQLException{
+        return usuarioRepository.actualizarUsuario(usuario);
+    }
 }

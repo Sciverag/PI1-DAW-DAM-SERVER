@@ -33,7 +33,7 @@ public class UsuarioRepository implements IUsuarioRepository{
     @Override
     public List<Usuario> getUsuarios() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();
-        String query = "{call OBTENER_USUARIOS(?,?,?,?)}";
+        String query = "SELECT * FROM USUARIO";
 
         try (Connection connection = dataSource.getConnection();
              CallableStatement cs = connection.prepareCall(query)){
@@ -54,4 +54,62 @@ public class UsuarioRepository implements IUsuarioRepository{
         }
         return usuarios;
     }
+
+    @Override
+    public int deleteUsuario(String tag) throws SQLException {
+        int resultado = 0;
+        String query = "{? = call eliminar_usuario(?)}";
+
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setString(2, tag);
+            cs.execute();
+
+            resultado = cs.getInt(1);
+        }
+        return resultado;
+    }
+
+    @Override
+    public int actualizarUsuario(Usuario usuario) throws SQLException {
+        int resultado = 0;
+        String query = "{?= call actualizar_usuario(?,?,?,?,?,?,?,?,?)}";
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setString(2, usuario.getNombreUsuario());
+            cs.setString(3, usuario.getContrasenya());
+            cs.setString(4, usuario.getDomicilio());
+            cs.setInt(5, usuario.getCP());
+            cs.setString(6, usuario.getEmail());
+            cs.setDate(7, usuario.getFechaNacimiento());
+            cs.setString(8, usuario.getNombre());
+            cs.setString(9, usuario.getApellido());
+            cs.setInt(10, usuario.getNum_tarjeta());
+
+            resultado = cs.executeUpdate();
+        }
+        return resultado;
+    }
+
+    @Override
+    public Usuario getUsuarioByTag(String tag) throws SQLException {
+        Usuario usuario = new Usuario();
+        String query = "SELECT * FROM USUARIO WHERE TAG_USUARIO = ?";
+
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, tag);
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            usuario.setNombreUsuario(rs.getString(1));
+            //usuario.set
+
+        }
+        return usuario;
+    }
+
+
 }

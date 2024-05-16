@@ -16,4 +16,10 @@ public interface IUsuarioRepository {
      * @throws SQLException Si ocurre un error al obtener la lista de usuarios.
      */
     public List<Usuario> getUsuarios() throws SQLException;
+
+    public int deleteUsuario(String tag) throws SQLException;
+
+    public int actualizarUsuario(Usuario usuario) throws SQLException;
+
+    public Usuario getUsuarioByTag(String tag) throws SQLException;
 }
