@@ -62,10 +62,6 @@ public class ContenidoRepository implements IContenidoRepository{
         }
         return contenidos;
         */
-        cortoRepository = new CortoRepository();
-        peliculaRepository = new PeliculaRepository();
-        capituloRepository = new CapituloRepository();
-
          List<Contenido> contenidos = new ArrayList<>();
          contenidos.addAll(cortoRepository.getCortos());
          contenidos.addAll(peliculaRepository.getPeliculas());
