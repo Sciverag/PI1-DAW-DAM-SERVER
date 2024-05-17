@@ -22,4 +22,6 @@ public interface IUsuarioRepository {
     public int actualizarUsuario(Usuario usuario) throws SQLException;
 
     public Usuario getUsuarioByTag(String tag) throws SQLException;
+
+    public Usuario authenticateUsuario(String login, String password) throws SQLException;
 }

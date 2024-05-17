@@ -1,8 +1,6 @@
 package es.ieslavereda.miraveredaapi.service;
 
 import es.ieslavereda.miraveredaapi.repository.CapituloRepository;
-import es.ieslavereda.miraveredaapi.repository.UsuarioRepository;
-import es.ieslavereda.miraveredaapi.repository.model.Capitulo;
 import es.ieslavereda.miraveredaapi.repository.model.Contenido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +15,11 @@ public class CapituloService {
     private CapituloRepository capituloRepository;
 
     public List<Contenido> getCapitulos() throws SQLException {
-        return capituloRepository.getContenido();
+        return CapituloRepository.getCapitulos();
     }
 
     public Contenido getCapituloByid(int id) throws SQLException {
-        return capituloRepository.getContenidoById(id);
+        return capituloRepository.getCapituloById(id);
     }
 
 }

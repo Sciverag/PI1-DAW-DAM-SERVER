@@ -7,6 +7,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ICapituloRepository {
-    public List<Contenido> getContenido() throws SQLException;
-    public Contenido getContenidoById(int id) throws SQLException;
+    public Contenido getCapituloById(int id) throws SQLException;
+    //public Contenido getCapituloByTemporada(int id) throws SQLException;
 }

@@ -71,5 +71,14 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/login/&user={tag}&password={pass}")
+    public ResponseEntity<?> authenticateUsuario(@PathVariable("tag")String login, @PathVariable("pass")String password){
+        try {
+            return new ResponseEntity<>(usuarioService.authenticateUsuario(login, password), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
 
 }

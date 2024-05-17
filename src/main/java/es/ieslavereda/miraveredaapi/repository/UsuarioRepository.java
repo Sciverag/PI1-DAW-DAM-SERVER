@@ -56,6 +56,26 @@ public class UsuarioRepository implements IUsuarioRepository{
     }
 
     @Override
+    public Usuario authenticateUsuario(String login, String passwd) throws SQLException{
+        Usuario usuario = null;
+        String query = "SELECT COUNT(*) FROM USUARIO WHERE TAG_USUARIO = ?" + " AND CONTRASENYA = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query);){
+            ps.setString(1, login);
+            ps.setString(2, passwd);
+            ResultSet resultSet = ps.executeQuery();
+
+            resultSet.next();
+            if (resultSet.getInt(1)>0){
+                usuario = getUsuarioByTag(login);
+                usuario.setContrasenya(null);
+            }
+        }
+        return usuario;
+    }
+
+    @Override
     public int deleteUsuario(String tag) throws SQLException {
         int resultado = 0;
         String query = "{? = call eliminar_usuario(?)}";

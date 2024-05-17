@@ -16,10 +16,10 @@ public class PeliculaService {
     PeliculaRepository peliculaRepository;
 
     public List<Contenido> getPeliculas() throws SQLException{
-        return peliculaRepository.getContenido();
+        return PeliculaRepository.getPeliculas();
     }
 
     public Contenido getPeliculasById(int id) throws SQLException{
-        return peliculaRepository.getContenidoById(id);
+        return peliculaRepository.getPeliculaById(id);
     }
 }

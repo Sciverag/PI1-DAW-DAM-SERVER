@@ -16,10 +16,10 @@ public class CortoService {
     CortoRepository cortoRepository;
 
     public List<Contenido> getCortos() throws SQLException {
-        return cortoRepository.getContenido();
+        return CortoRepository.getCortos();
     }
 
     public Contenido getCortoById(int id) throws SQLException {
-        return cortoRepository.getContenidoById(id);
+        return cortoRepository.getCortoById(id);
     }
 }

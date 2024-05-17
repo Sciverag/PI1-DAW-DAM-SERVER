@@ -2,6 +2,7 @@ package es.ieslavereda.miraveredaapi.repository;
 
 import es.ieslavereda.miraveredaapi.repository.model.Contenido;
 import es.ieslavereda.miraveredaapi.repository.model.Corto;
+import es.ieslavereda.miraveredaapi.repository.model.OracleDataSourceDB;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,15 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CortoRepository extends ContenidoRepository implements ICortoRepository{
+public class CortoRepository implements ICortoRepository{
 
     @Autowired
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
 
-    @Override
-    public List<Contenido> getContenido() throws SQLException {
+    public static List<Contenido> getCortos() throws SQLException {
+        OracleDataSource dataSource = OracleDataSourceDB.getOracleDataSource();
+
         String query = "SELECT c.ID AS ID_CONTENIDO, c.TITULO, c.DESCRIPCION, " +
                 "c.URL_IMAGEN, c.ACTORES, c.PUNT_MEDIA, c.FECH_ESTRENO, " +
                 "c.DURACION, c.DIRECTOR, c.ID_GENERO, c.ID_TARIFA FROM CONTENIDO c " +
@@ -50,7 +52,7 @@ public class CortoRepository extends ContenidoRepository implements ICortoReposi
     }
 
     @Override
-    public Contenido getContenidoById(int id) throws SQLException {
+    public Contenido getCortoById(int id) throws SQLException {
         String query = "SELECT c.ID AS ID_CONTENIDO, " +
                 "c.TITULO, c.DESCRIPCION, c.URL_IMAGEN, " +
                 "c.ACTORES, c.PUNT_MEDIA, c.FECH_ESTRENO, " +

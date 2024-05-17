@@ -1,8 +1,6 @@
 package es.ieslavereda.miraveredaapi.repository;
 
-import es.ieslavereda.miraveredaapi.repository.model.Contenido;
-import es.ieslavereda.miraveredaapi.repository.model.Corto;
-import es.ieslavereda.miraveredaapi.repository.model.OracleDataSourceDB;
+import es.ieslavereda.miraveredaapi.repository.model.*;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,7 +18,7 @@ import java.util.List;
  * Clase que proporciona acceso a los datos de contenido en la base de datos.
  */
 @Repository
-public abstract class ContenidoRepository implements IContenidoRepository{
+public class ContenidoRepository implements IContenidoRepository{
 
     /**
      * Fuente de datos Oracle que se utilizará para acceder a la base de datos.
@@ -28,26 +26,18 @@ public abstract class ContenidoRepository implements IContenidoRepository{
     @Autowired
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
-    @Autowired
-    private CortoRepository cortoRepository;
-    @Autowired
-    private PeliculaRepository peliculaRepository;
-    @Autowired
-    private CapituloRepository capituloRepository;
 
-
-    //Esta dando fallos de herencia ciclica al iniciar la API
     @Override
     public List<Contenido> getContenidos() throws SQLException {
         List<Contenido> contenidos = new ArrayList<>();
 
-        contenidos.addAll(getContenido());
+        contenidos.addAll(CapituloRepository.getCapitulos());
+        contenidos.addAll(PeliculaRepository.getPeliculas());
+        contenidos.addAll(CortoRepository.getCortos());
 
         return contenidos;
     }
 
-    abstract List<Contenido> getContenido() throws SQLException;
-    abstract Contenido getContenidoById(int id) throws SQLException;
 
 
 }

@@ -2,7 +2,7 @@ package es.ieslavereda.miraveredaapi.repository;
 
 import es.ieslavereda.miraveredaapi.repository.model.Capitulo;
 import es.ieslavereda.miraveredaapi.repository.model.Contenido;
-import es.ieslavereda.miraveredaapi.repository.model.Corto;
+import es.ieslavereda.miraveredaapi.repository.model.OracleDataSourceDB;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,14 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CapituloRepository extends ContenidoRepository implements ICapituloRepository{
+public class CapituloRepository implements ICapituloRepository{
 
     @Autowired
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
-    @Override
-    public List<Contenido> getContenido() throws SQLException {
+    public static List<Contenido> getCapitulos() throws SQLException {
+        OracleDataSource dataSource = OracleDataSourceDB.getOracleDataSource();
+
         String query = "SELECT c.ID AS ID_CONTENIDO, " +
                 "c.TITULO, c.DESCRIPCION, c.URL_IMAGEN, " +
                 "c.ACTORES, c.PUNT_MEDIA, c.FECH_ESTRENO, " +
@@ -53,7 +54,7 @@ public class CapituloRepository extends ContenidoRepository implements ICapitulo
     }
 
     @Override
-    public Contenido getContenidoById(int id) throws SQLException {
+    public Contenido getCapituloById(int id) throws SQLException {
         String query = "SELECT c.ID AS ID_CONTENIDO, c.TITULO, " +
                 "c.DESCRIPCION, c.URL_IMAGEN, c.ACTORES, c.PUNT_MEDIA, " +
                 "c.FECH_ESTRENO, c.DURACION, c.DIRECTOR, c.ID_GENERO, " +

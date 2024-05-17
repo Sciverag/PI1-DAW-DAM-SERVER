@@ -37,4 +37,8 @@ public class UsuarioService {
     public Usuario getUsuarioByTag(String tag) throws SQLException {
         return usuarioRepository.getUsuarioByTag(tag);
     }
+
+    public Usuario authenticateUsuario(String login, String password) throws SQLException{
+        return usuarioRepository.authenticateUsuario(login, password);
+    }
 }
