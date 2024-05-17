@@ -58,5 +58,14 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/{tag}")
+    public ResponseEntity<?> getUsuarioByTag(@PathVariable("tag") String tag){
+        try {
+            return new ResponseEntity<>(usuarioService.getUsuarioByTag(tag), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
 
 }

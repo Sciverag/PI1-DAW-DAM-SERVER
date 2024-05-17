@@ -33,4 +33,8 @@ public class UsuarioService {
     public int actualizarUsuario(Usuario usuario) throws SQLException{
         return usuarioRepository.actualizarUsuario(usuario);
     }
+
+    public Usuario getUsuarioByTag(String tag) throws SQLException {
+        return usuarioRepository.getUsuarioByTag(tag);
+    }
 }
