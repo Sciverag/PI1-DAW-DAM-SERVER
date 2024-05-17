@@ -49,7 +49,6 @@ public class UsuarioRepository implements IUsuarioRepository{
                         .nombre(rs.getString(7))
                         .apellido(rs.getString(8))
                         .num_tarjeta(rs.getInt(9))
-                        .changedTs(rs.getDate(10))
                         .url_imagen(rs.getString(11)).build());
             }
         }

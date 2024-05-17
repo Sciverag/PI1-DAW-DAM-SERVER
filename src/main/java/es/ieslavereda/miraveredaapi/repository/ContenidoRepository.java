@@ -36,6 +36,7 @@ public abstract class ContenidoRepository implements IContenidoRepository{
     private CapituloRepository capituloRepository;
 
 
+    //Esta dando fallos de herencia ciclica al iniciar la API
     @Override
     public List<Contenido> getContenidos() throws SQLException {
         List<Contenido> contenidos = new ArrayList<>();
