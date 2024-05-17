@@ -41,11 +41,6 @@ public class Factura {
     private int idUsuario;
 
     /**
-     * La fecha de la última modificación de la factura.
-     */
-    private Date changedTs;
-
-    /**
      * Compara este objeto con otro para determinar si son iguales.
      * @param object El objeto con el que se va a comparar.
      * @return true si los objetos son iguales (tienen el mismo número de factura), false en caso contrario.

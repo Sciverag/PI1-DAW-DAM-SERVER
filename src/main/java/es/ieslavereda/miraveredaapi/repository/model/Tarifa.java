@@ -26,11 +26,6 @@ public class Tarifa {
     private Double precio;
 
     /**
-     * La fecha de la última modificación de la tarifa.
-     */
-    private Date changedTs;
-
-    /**
      * Compara este objeto con otro para determinar si son iguales.
      * @param object El objeto con el que se va a comparar.
      * @return true si los objetos son iguales (tienen el mismo código de tarifa), false en caso contrario.

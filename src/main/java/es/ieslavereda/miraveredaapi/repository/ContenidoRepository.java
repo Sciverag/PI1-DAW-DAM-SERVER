@@ -20,7 +20,7 @@ import java.util.List;
  * Clase que proporciona acceso a los datos de contenido en la base de datos.
  */
 @Repository
-public class ContenidoRepository implements IContenidoRepository{
+public abstract class ContenidoRepository implements IContenidoRepository{
 
     /**
      * Fuente de datos Oracle que se utilizará para acceder a la base de datos.
@@ -38,43 +38,15 @@ public class ContenidoRepository implements IContenidoRepository{
 
     @Override
     public List<Contenido> getContenidos() throws SQLException {
-        /*String query = "select * from CONTENIDO";
-        List<Contenido> contenidos = new ArrayList<Contenido>();
+        List<Contenido> contenidos = new ArrayList<>();
 
-        try (Connection con = dataSource.getConnection();
-             Statement statement = con.createStatement()){
+        contenidos.addAll(getContenido());
 
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()) {
-
-                contenidos.add(new Corto(rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getFloat(6),
-                        rs.getDate(7),
-                        rs.getFloat(8),
-                        rs.getString(9),
-                        rs.getInt(10),
-                        rs.getInt(11)));
-            }
-        }
-        return contenidos;
-        */
-         List<Contenido> contenidos = new ArrayList<>();
-         contenidos.addAll(cortoRepository.getCortos());
-         contenidos.addAll(peliculaRepository.getPeliculas());
-         contenidos.addAll(capituloRepository.getCapitulos());
-
-        Collections.shuffle(contenidos);
         return contenidos;
     }
 
-    @Override
-    public List<Contenido> getContenidosByTag() throws SQLException {
-        return null;
-    }
+    abstract List<Contenido> getContenido() throws SQLException;
+    abstract Contenido getContenidoById(int id) throws SQLException;
 
 
 }

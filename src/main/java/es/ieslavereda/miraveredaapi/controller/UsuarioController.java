@@ -59,10 +59,14 @@ public class UsuarioController {
     }
 
     @GetMapping("/{tag}")
-    public ResponseEntity<?> getUsuarioByTag(@PathVariable("tag") String tag){
+    public ResponseEntity<?> getUsuarioByTag(@PathVariable("tag")String tag){
         try {
-            return new ResponseEntity<>(usuarioService.getUsuarioByTag(tag), HttpStatus.OK);
-        } catch (SQLException e){
+            Usuario usuario = usuarioService.getUsuarioByTag(tag);
+            if (usuario == null){
+                return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(usuario, HttpStatus.OK);
+        }catch (SQLException e){
             return Response.response(e);
         }
     }

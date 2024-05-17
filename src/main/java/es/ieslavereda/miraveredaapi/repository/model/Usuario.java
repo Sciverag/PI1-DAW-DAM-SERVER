@@ -58,12 +58,6 @@ public class Usuario {
      * El número de tarjeta del usuario.
      */
     private int num_tarjeta;
-
-    /**
-     * La fecha de la última modificación del usuario.
-     */
-    private Date changedTs;
-
     /**
      * Url de la imagen del usuario.
      */
