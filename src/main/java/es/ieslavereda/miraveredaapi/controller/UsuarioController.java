@@ -80,5 +80,14 @@ public class UsuarioController {
         }
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<?> addUsuario(@RequestBody Usuario usuario){
+        try {
+            return new ResponseEntity<>(usuarioService.addUsuario(usuario), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
 
 }

@@ -7,5 +7,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IPeliculaRepository {
-    public Contenido getPeliculaById(int id) throws SQLException;
+    public Pelicula getPeliculaById(int id) throws SQLException;
+    public Pelicula addPelicula(Pelicula pelicula) throws SQLException;
 }

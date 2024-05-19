@@ -5,10 +5,7 @@ import es.ieslavereda.miraveredaapi.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
@@ -36,6 +33,15 @@ public class PeliculaController {
                 return new ResponseEntity<>("Pelicula no encontrada", HttpStatus.OK);
             }
             return new ResponseEntity<>(pelicula, HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addPelicula(@RequestBody Pelicula pelicula){
+        try {
+            return new ResponseEntity<>(peliculaService.addPelicula(pelicula), HttpStatus.OK);
         } catch (SQLException e){
             return Response.response(e);
         }

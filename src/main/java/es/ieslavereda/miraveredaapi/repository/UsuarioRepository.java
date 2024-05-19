@@ -36,8 +36,8 @@ public class UsuarioRepository implements IUsuarioRepository{
         String query = "SELECT * FROM USUARIO";
 
         try (Connection connection = dataSource.getConnection();
-             CallableStatement cs = connection.prepareCall(query)){
-            ResultSet rs = cs.executeQuery();
+             Statement statement = connection.createStatement()){
+            ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 usuarios.add(Usuario.builder()
                         .nombreUsuario(rs.getString(1))
@@ -70,6 +70,29 @@ public class UsuarioRepository implements IUsuarioRepository{
             if (resultSet.getInt(1)>0){
                 usuario = getUsuarioByTag(login);
                 usuario.setContrasenya(null);
+            }
+        }
+        return usuario;
+    }
+
+    @Override
+    public Usuario addUsuario(Usuario usuario) throws SQLException {
+        String query = "{call crear_usuario(?,?,?,?,?,?,?,?,?)}";
+
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.setString(1, usuario.getNombreUsuario());
+            cs.setString(2, usuario.getContrasenya());
+            cs.setString(3, usuario.getDomicilio());
+            cs.setInt(4, usuario.getCP());
+            cs.setString(5, usuario.getEmail());
+            cs.setDate(6, usuario.getFechaNacimiento());
+            cs.setString(7, usuario.getNombre());
+            cs.setString(8, usuario.getApellido());
+            cs.setInt(9, usuario.getNum_tarjeta());
+
+            if (cs.executeUpdate() < 1){
+                usuario = null;
             }
         }
         return usuario;

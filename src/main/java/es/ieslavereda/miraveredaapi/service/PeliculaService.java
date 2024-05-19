@@ -15,11 +15,15 @@ public class PeliculaService {
     @Autowired
     PeliculaRepository peliculaRepository;
 
-    public List<Contenido> getPeliculas() throws SQLException{
+    public List<Pelicula> getPeliculas() throws SQLException{
         return PeliculaRepository.getPeliculas();
     }
 
-    public Contenido getPeliculasById(int id) throws SQLException{
+    public Pelicula getPeliculasById(int id) throws SQLException{
         return peliculaRepository.getPeliculaById(id);
+    }
+
+    public Pelicula addPelicula(Pelicula pelicula) throws SQLException{
+        return peliculaRepository.addPelicula(pelicula);
     }
 }

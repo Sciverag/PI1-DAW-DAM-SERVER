@@ -41,4 +41,8 @@ public class UsuarioService {
     public Usuario authenticateUsuario(String login, String password) throws SQLException{
         return usuarioRepository.authenticateUsuario(login, password);
     }
+
+    public Usuario addUsuario(Usuario usuario) throws SQLException{
+        return usuarioRepository.addUsuario(usuario);
+    }
 }

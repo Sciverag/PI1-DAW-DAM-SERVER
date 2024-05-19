@@ -1,9 +1,13 @@
 package es.ieslavereda.miraveredaapi.controller;
 
+import es.ieslavereda.miraveredaapi.repository.model.Serie;
 import es.ieslavereda.miraveredaapi.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
 
 
 /**
@@ -16,4 +20,32 @@ public class SerieController {
 
     @Autowired
     private SerieService serieService;
+
+    @GetMapping("/")
+    public ResponseEntity<?> getSeries(){
+        try {
+            return new ResponseEntity<>(serieService.getSeries(), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getSerieById(@PathVariable("id")int id){
+        try {
+            return new ResponseEntity<>(serieService.getSerieById(id), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addSerie(@RequestBody Serie serie){
+        try {
+            return new ResponseEntity<>(serieService.addSerie(serie), HttpStatus.OK);
+        }catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
 }

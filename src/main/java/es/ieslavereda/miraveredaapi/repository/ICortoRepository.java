@@ -7,5 +7,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ICortoRepository {
-    public Contenido getCortoById(int id) throws SQLException;
+    public Corto getCortoById(int id) throws SQLException;
+    public Corto addCorto(Corto corto) throws SQLException;
 }

@@ -15,11 +15,15 @@ public class CortoService {
     @Autowired
     CortoRepository cortoRepository;
 
-    public List<Contenido> getCortos() throws SQLException {
+    public List<Corto> getCortos() throws SQLException {
         return CortoRepository.getCortos();
     }
 
-    public Contenido getCortoById(int id) throws SQLException {
+    public Corto getCortoById(int id) throws SQLException {
         return cortoRepository.getCortoById(id);
+    }
+
+    public Corto addCorto(Corto corto) throws SQLException {
+        return cortoRepository.addCorto(corto);
     }
 }
