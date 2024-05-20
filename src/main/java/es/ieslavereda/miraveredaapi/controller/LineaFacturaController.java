@@ -2,8 +2,14 @@ package es.ieslavereda.miraveredaapi.controller;
 
 import es.ieslavereda.miraveredaapi.service.LineaFacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.sql.SQLException;
 
 
 /**
@@ -16,5 +22,32 @@ public class LineaFacturaController {
 
     @Autowired
     private LineaFacturaService lineaFacturaService;
+
+    @GetMapping("/&factura={id}")
+    public ResponseEntity<?> getFacturasByIdFactura(@PathVariable("id") int id) {
+        try {
+            return new ResponseEntity<>(lineaFacturaService.getLineaFacturasByIdFactura(id), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getFacturaById(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity(lineaFacturaService.getLineaFacturaById(id), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @GetMapping("/&carro={id}")
+    public ResponseEntity<?> getLineaFacturasByIdCarro(@PathVariable("id") int id){
+        try {
+            return new ResponseEntity<>(lineaFacturaService.getLineaFacturasByIdCarro(id), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
 
 }
