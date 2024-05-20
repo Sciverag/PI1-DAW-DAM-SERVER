@@ -20,4 +20,8 @@ public class ContenidoService {
     public List<Contenido> getContenido() throws SQLException{
         return contenidoRepository.getContenidos();
     }
+
+    public Double getPrecio(int id) throws SQLException{
+        return contenidoRepository.getPrecio(id);
+    }
 }

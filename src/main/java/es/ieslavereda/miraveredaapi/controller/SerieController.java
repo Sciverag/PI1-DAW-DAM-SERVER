@@ -42,7 +42,7 @@ public class SerieController {
     @PostMapping("/add")
     public ResponseEntity<?> addSerie(@RequestBody Serie serie){
         try {
-            return new ResponseEntity<>(serieService.addSerie(serie), HttpStatus.OK);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(serieService.addSerie(serie));
         }catch (SQLException e){
             return Response.response(e);
         }

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +35,23 @@ public class ContenidoRepository implements IContenidoRepository{
         return contenidos;
     }
 
+    @Override
+    public Double getPrecio(int id) throws SQLException {
+        String query = "SELECT TARIFA.PRECIO AS PRECIO_TARIFA " +
+                "FROM CONTENIDO JOIN TARIFA ON CONTENIDO.ID_TARIFA = TARIFA.ID " +
+                "WHERE CONTENIDO.ID = ?";
+        Double precio = 0.0;
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            precio = rs.getDouble(1);
+
+        }
+        return precio;
+    }
 
 
 }

@@ -41,7 +41,7 @@ public class CortoController {
     @PostMapping("/add")
     public ResponseEntity<?> addCorto(@RequestBody Corto corto){
         try {
-            return new ResponseEntity<>(cortoService.addCorto(corto), HttpStatus.OK);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(cortoService.addCorto(corto));
         } catch (SQLException e){
             return Response.response(e);
         }

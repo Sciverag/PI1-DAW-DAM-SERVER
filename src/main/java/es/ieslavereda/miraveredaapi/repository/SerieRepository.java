@@ -72,13 +72,10 @@ public class SerieRepository implements  ISerieRepository{
         String query = "{call crear_serie(?,?,?)}";
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
-            if (getSerieById(serie.getId())!=null){
-                return null;
-            }
 
-            cs.setDate(1, serie.getDisponible_hasta());
-            cs.setString(2, serie.getTitulo());
-            cs.setString(3, serie.getDescripcion());
+            cs.setString(1, serie.getTitulo());
+            cs.setString(2, serie.getDescripcion());
+            cs.setDate(3, serie.getDisponible_hasta());
 
             if (cs.executeUpdate()<1){
                 serie = null;

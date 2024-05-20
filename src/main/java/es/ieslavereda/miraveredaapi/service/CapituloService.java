@@ -27,4 +27,8 @@ public class CapituloService {
         return capituloRepository.addCapitulo(capitulo);
     }
 
+    public List<Capitulo> getCapitulosBySerie(int id) throws SQLException{
+        return capituloRepository.getCapitulosBySerie(id);
+    }
+
 }

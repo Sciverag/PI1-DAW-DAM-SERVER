@@ -2,7 +2,7 @@ package es.ieslavereda.miraveredaapi.repository.model;
 
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Clase que representa una factura.

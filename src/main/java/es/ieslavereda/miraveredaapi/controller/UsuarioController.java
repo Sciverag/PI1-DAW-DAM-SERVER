@@ -12,6 +12,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de usuarios.
  * Este controlador maneja las solicitudes relacionadas con los usuarios de la aplicación.
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -39,7 +40,7 @@ public class UsuarioController {
             if (resultado < 0){
                 return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(resultado, HttpStatus.OK);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(resultado);
         } catch (SQLException e){
             return Response.response(e);
         }
@@ -52,7 +53,7 @@ public class UsuarioController {
             if (resultado < 1){
                 return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>(resultado, HttpStatus.OK);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(resultado);
         } catch (SQLException e){
             return Response.response(e);
         }
@@ -83,7 +84,7 @@ public class UsuarioController {
     @PostMapping("/add")
     public ResponseEntity<?> addUsuario(@RequestBody Usuario usuario){
         try {
-            return new ResponseEntity<>(usuarioService.addUsuario(usuario), HttpStatus.OK);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(usuarioService.addUsuario(usuario));
         } catch (SQLException e){
             return Response.response(e);
         }

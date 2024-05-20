@@ -42,7 +42,16 @@ public class CapituloController {
     @PostMapping("/add")
     public ResponseEntity<?> addCapitulo(@RequestBody Capitulo capitulo){
         try {
-            return new ResponseEntity<>(capituloService.addCapitulo(capitulo), HttpStatus.OK);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(capituloService.addCapitulo(capitulo));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @GetMapping("/&serie={id}")
+    public ResponseEntity<?> getCapitulosBySerie(@PathVariable("id")int id){
+        try {
+            return new ResponseEntity<>(capituloService.getCapitulosBySerie(id), HttpStatus.OK);
         } catch (SQLException e){
             return Response.response(e);
         }

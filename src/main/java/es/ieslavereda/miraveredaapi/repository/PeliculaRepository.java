@@ -103,15 +103,16 @@ public class PeliculaRepository implements IPeliculaRepository{
             }
 
             cs.setString(1, pelicula.getTitulo());
-            cs.setString(2, pelicula.getURL_image());
-            cs.setString(3, pelicula.getActores());
-            cs.setFloat(4, pelicula.getPuntMedia());
-            cs.setDate(5, pelicula.getFechaEstreno());
-            cs.setFloat(6, pelicula.getDuracion_minutos());
-            cs.setString(7, pelicula.getDirector());
-            cs.setInt(8, pelicula.getIdGenero());
-            cs.setInt(9, pelicula.getIdTarifa());
-            cs.setDate(10, pelicula.getDisponible_hasta());
+            cs.setString(2, pelicula.getDescripcion());
+            cs.setString(3, pelicula.getURL_image());
+            cs.setString(4, pelicula.getActores());
+            cs.setFloat(5, pelicula.getPuntMedia());
+            cs.setDate(6, pelicula.getFechaEstreno());
+            cs.setFloat(7, pelicula.getDuracion_minutos());
+            cs.setString(8, pelicula.getDirector());
+            cs.setInt(9, pelicula.getIdGenero());
+            cs.setInt(10, pelicula.getIdTarifa());
+            cs.setDate(11, pelicula.getDisponible_hasta());
 
             if (cs.executeUpdate()<1){
                 pelicula = null;

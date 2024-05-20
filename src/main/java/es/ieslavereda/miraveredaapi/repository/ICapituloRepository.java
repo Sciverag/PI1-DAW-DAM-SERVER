@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ICapituloRepository {
     public Contenido getCapituloById(int id) throws SQLException;
-    //public Contenido getCapituloByTemporada(int id) throws SQLException;
+    public List<Capitulo> getCapitulosBySerie(int id) throws SQLException;
     public Capitulo addCapitulo(Capitulo capitulo) throws SQLException;
 }
