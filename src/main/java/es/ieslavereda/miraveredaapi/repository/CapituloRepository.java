@@ -35,6 +35,7 @@ public class CapituloRepository implements ICapituloRepository{
              Statement statement = connection.createStatement()){
 
             ResultSet rs = statement.executeQuery(query);
+            rs.next();
 
             capitulos.add(new Capitulo(rs.getInt(1),
                     rs.getString(2),
@@ -92,9 +93,9 @@ public class CapituloRepository implements ICapituloRepository{
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
 
-            if (getCapituloById(capitulo.getId()) != null){
+/*            if (getCapituloById(capitulo.getId()) != null){
                 return null;
-            }
+            }*/
 
             cs.setString(1, capitulo.getTitulo());
             cs.setString(2, capitulo.getDescripcion());
@@ -106,12 +107,10 @@ public class CapituloRepository implements ICapituloRepository{
             cs.setString(8, capitulo.getDirector());
             cs.setInt(9, capitulo.getIdGenero());
             cs.setInt(10, capitulo.getIdTarifa());
-            cs.setInt(11, capitulo.getIdSerie());
-            cs.setInt(12, capitulo.getTemporada());
+            cs.setInt(11, capitulo.getTemporada());
+            cs.setInt(12, capitulo.getIdSerie());
 
-            if (cs.executeUpdate() < 1){
-                capitulo = null;
-            }
+            cs.execute();
         }
         return capitulo;
     }

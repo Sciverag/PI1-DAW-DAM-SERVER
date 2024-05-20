@@ -71,7 +71,6 @@ public abstract class Contenido {
     /**
      * La fecha de la última modificación del contenido.
      */
-    private Date changedTs;
 
     public Contenido(int id, String titulo, String descripcion, String URL_image, String actores, float puntMedia, Date fechaEstreno, float duracion_minutos, String director, int idGenero, int idTarifa) {
         this.id = id;

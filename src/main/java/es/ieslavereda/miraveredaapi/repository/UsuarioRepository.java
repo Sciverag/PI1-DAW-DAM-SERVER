@@ -156,6 +156,8 @@ public class UsuarioRepository implements IUsuarioRepository{
             usuario.setNombre(rs.getString(7));
             usuario.setApellido(rs.getString(8));
             usuario.setNum_tarjeta(rs.getInt(9));
+            usuario.setUrl_imagen(rs.getString(11));
+
         }
         return usuario;
     }
