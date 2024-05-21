@@ -110,4 +110,6 @@ public abstract class Contenido {
         return id;
     }
 
+    public abstract String getTipo();
+
 }

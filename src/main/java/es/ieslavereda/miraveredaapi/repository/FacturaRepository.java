@@ -83,4 +83,18 @@ public class FacturaRepository implements IFacturaRepository{
         }
         return facturas;
     }
+
+    @Override
+    public Factura addFactura(Factura factura) throws SQLException {
+        String query = "{call crear_factura(?)}";
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.setInt(1, factura.getIdUsuario());
+
+            if (cs.executeUpdate()<1){
+                factura = null;
+            }
+        }
+        return factura;
+    }
 }

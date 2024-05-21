@@ -28,4 +28,8 @@ public class FacturaService {
     public List<Factura> getFacturaByUsuarioId(int id) throws SQLException{
         return facturaRepository.getFacturasByUsuarioId(id);
     }
+
+    public Factura addFactura(Factura factura) throws SQLException{
+        return facturaRepository.addFactura(factura);
+    }
 }

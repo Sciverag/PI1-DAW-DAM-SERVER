@@ -10,4 +10,5 @@ public interface ICapituloRepository {
     public Contenido getCapituloById(int id) throws SQLException;
     public List<Capitulo> getCapitulosBySerie(int id) throws SQLException;
     public Capitulo addCapitulo(Capitulo capitulo) throws SQLException;
+    public int updateCapitulo(Capitulo capitulo) throws SQLException;
 }

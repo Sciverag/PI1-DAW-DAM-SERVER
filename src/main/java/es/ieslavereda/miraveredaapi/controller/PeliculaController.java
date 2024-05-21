@@ -41,7 +41,16 @@ public class PeliculaController {
     @PostMapping("/add")
     public ResponseEntity<?> addPelicula(@RequestBody Pelicula pelicula){
         try {
-            return new ResponseEntity<>(peliculaService.addPelicula(pelicula), HttpStatus.OK);
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(peliculaService.addPelicula(pelicula));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updatePelicula(@RequestBody Pelicula pelicula){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(peliculaService.updatePelicula(pelicula));
         } catch (SQLException e){
             return Response.response(e);
         }

@@ -24,4 +24,12 @@ public class ContenidoService {
     public Double getPrecio(int id) throws SQLException{
         return contenidoRepository.getPrecio(id);
     }
+
+    public int updatePuntuacionById(int id, int punt) throws  SQLException{
+        return contenidoRepository.updatePuntuacionById(id, punt);
+    }
+
+    public int deleteContenido(Contenido contenido) throws SQLException{
+        return contenidoRepository.deleteContenido(contenido);
+    }
 }

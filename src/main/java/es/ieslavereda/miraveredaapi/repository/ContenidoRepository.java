@@ -53,5 +53,36 @@ public class ContenidoRepository implements IContenidoRepository{
         return precio;
     }
 
+    @Override
+    public int updatePuntuacionById(int id, float punt) throws SQLException {
+        String query = "{?= call actualizar_puntuacion(?,?)}";
+        int resultado = 0;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(1, id);
+            cs.setFloat(2, punt);
+
+            resultado = cs.executeUpdate();
+        }
+        return resultado;
+
+    }
+
+    @Override
+    public int deleteContenido(Contenido contenido) throws SQLException {
+        String query = "{?= call eliminar_contenido(?, ?)}";
+        int resultado = 0;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2, contenido.getId());
+            cs.setString(3, contenido.getTipo());
+
+            resultado = cs.executeUpdate();
+        }
+        return resultado;
+    }
+
 
 }

@@ -13,4 +13,8 @@ public interface IContenidoRepository {
     public List<Contenido> getContenidos() throws SQLException;
 
     public Double getPrecio(int id) throws SQLException;
+
+    public int updatePuntuacionById(int id, float punt) throws SQLException;
+
+    public int deleteContenido(Contenido contenido) throws SQLException;
 }

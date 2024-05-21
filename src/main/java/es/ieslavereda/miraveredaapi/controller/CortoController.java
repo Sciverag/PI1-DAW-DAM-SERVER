@@ -47,4 +47,13 @@ public class CortoController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCorto(@RequestBody Corto corto){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(cortoService.updateCorto(corto));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
 }

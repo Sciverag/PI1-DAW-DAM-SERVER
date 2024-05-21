@@ -121,4 +121,29 @@ public class PeliculaRepository implements IPeliculaRepository{
         return pelicula;
     }
 
+    @Override
+    public int updatePelicula(Pelicula pelicula) throws SQLException {
+        String query = "{?= call actualizar_pelicula(?,?,?,?,?,?,?,?,?,?,?,?)}";
+        int resultado = 0;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2, pelicula.getId());
+            cs.setDate(3, pelicula.getDisponible_hasta());
+            cs.setString(4, pelicula.getTitulo());
+            cs.setString(5, pelicula.getDescripcion());
+            cs.setString(6, pelicula.getURL_image());
+            cs.setString(7, pelicula.getActores());
+            cs.setFloat(8, pelicula.getPuntMedia());
+            cs.setDate(9, pelicula.getFechaEstreno());
+            cs.setFloat(10, pelicula.getDuracion_minutos());
+            cs.setString(11, pelicula.getDirector());
+            cs.setInt(12, pelicula.getIdGenero());
+            cs.setInt(13, pelicula.getIdTarifa());
+
+            resultado = cs.executeUpdate();
+        }
+        return resultado;
+    }
+
 }

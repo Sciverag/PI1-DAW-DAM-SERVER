@@ -152,4 +152,32 @@ public class CapituloRepository implements ICapituloRepository{
         }
         return capitulo;
     }
+
+    @Override
+    public int updateCapitulo(Capitulo capitulo) throws SQLException {
+        String query = "{?= call  actualizar_capitulo(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+        int resultado = 0;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+
+            cs.setInt(2, capitulo.getId());
+            cs.setInt(3, capitulo.getTemporada());
+            cs.setInt(4, capitulo.getIdSerie());
+            cs.setString(5, capitulo.getTitulo());
+            cs.setString(6, capitulo.getDescripcion());
+            cs.setString(7, capitulo.getURL_image());
+            cs.setString(8, capitulo.getActores());
+            cs.setFloat(9, capitulo.getPuntMedia());
+            cs.setDate(10, capitulo.getFechaEstreno());
+            cs.setFloat(11, capitulo.getDuracion_minutos());
+            cs.setString(12, capitulo.getDirector());
+            cs.setInt(13, capitulo.getIdGenero());
+            cs.setInt(14, capitulo.getIdTarifa());
+
+            resultado = cs.executeUpdate();
+
+        }
+        return resultado;
+    }
 }

@@ -23,6 +23,10 @@ public class Pelicula extends Contenido {
         this.disponible_hasta = disponible_hasta;
     }
 
+    public String getTipo(){
+        return "Pelicula";
+    }
+
 
 }
 

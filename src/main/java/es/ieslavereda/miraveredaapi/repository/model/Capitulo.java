@@ -28,4 +28,8 @@ public class Capitulo extends Contenido {
         this.idSerie = idSerie;
         this.temporada = temporada;
     }
+
+    public String getTipo(){
+        return "Capitulo";
+    }
 }

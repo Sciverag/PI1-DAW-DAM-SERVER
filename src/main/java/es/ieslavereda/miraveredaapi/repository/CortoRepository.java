@@ -95,10 +95,6 @@ public class CortoRepository implements ICortoRepository{
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
 
-            if (getCortoById(corto.getId()) != null){
-                return null;
-            }
-
             cs.setString(1, corto.getTitulo());
             cs.setString(2, corto.getDescripcion());
             cs.setString(3, corto.getURL_image());
@@ -116,6 +112,30 @@ public class CortoRepository implements ICortoRepository{
 
         }
         return corto;
+    }
+
+    @Override
+    public int updateCorto(Corto corto) throws SQLException {
+        String query = "{?= call actualizar_corto(?,?,?,?,?,?,?,?,?,?,?)}";
+        int resultado = 0;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2, corto.getId());
+            cs.setString(3, corto.getTitulo());
+            cs.setString(4, corto.getDescripcion());
+            cs.setString(5, corto.getURL_image());
+            cs.setString(6, corto.getActores());
+            cs.setFloat(7, corto.getPuntMedia());
+            cs.setDate(8 ,corto.getFechaEstreno());
+            cs.setFloat(9, corto.getDuracion_minutos());
+            cs.setString(10, corto.getDirector());
+            cs.setInt(11, corto.getIdGenero());
+            cs.setInt(12, corto.getIdTarifa());
+
+            resultado = cs.executeUpdate();
+        }
+        return resultado;
     }
 
 

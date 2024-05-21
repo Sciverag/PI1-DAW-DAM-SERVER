@@ -31,4 +31,8 @@ public class CapituloService {
         return capituloRepository.getCapitulosBySerie(id);
     }
 
+    public int updateCapitulo(Capitulo capitulo) throws SQLException{
+        return capituloRepository.updateCapitulo(capitulo);
+    }
+
 }

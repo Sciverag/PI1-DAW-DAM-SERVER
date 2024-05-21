@@ -57,4 +57,13 @@ public class CapituloController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCapitulo(@RequestBody Capitulo capitulo){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(capituloService.updateCapitulo(capitulo));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
 }

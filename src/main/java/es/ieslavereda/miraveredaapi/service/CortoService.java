@@ -26,4 +26,8 @@ public class CortoService {
     public Corto addCorto(Corto corto) throws SQLException {
         return cortoRepository.addCorto(corto);
     }
+
+    public int updateCorto(Corto corto) throws SQLException{
+        return cortoRepository.updateCorto(corto);
+    }
 }
