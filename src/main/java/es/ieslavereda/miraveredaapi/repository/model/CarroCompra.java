@@ -22,7 +22,7 @@ public class CarroCompra {
     /**
      * El ID del usuario al que pertenece el carro de compra.
      */
-    private int idUsuario;
+    private String idUsuario;
 
     /**
      * Compara este objeto con otro para determinar si son iguales.

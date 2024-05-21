@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/contenido/capitulo")
 public class CapituloController {

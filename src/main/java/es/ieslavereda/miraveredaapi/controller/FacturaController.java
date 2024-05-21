@@ -14,6 +14,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de facturas.
  * Este controlador maneja las solicitudes relacionadas con las facturas de la aplicación.
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/factura")
 public class FacturaController {
@@ -40,7 +41,7 @@ public class FacturaController {
     }
 
     @GetMapping("/&user={id}")
-    public ResponseEntity<?> getFacturasByUsuarioId(@PathVariable("id")int id){
+    public ResponseEntity<?> getFacturasByUsuarioId(@PathVariable("id")String id){
         try {
             return new ResponseEntity<>(facturaService.getFacturaByUsuarioId(id), HttpStatus.OK);
         } catch (SQLException e){
@@ -50,10 +51,21 @@ public class FacturaController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addFactura(@RequestBody Factura factura){
-    try {
-        return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(facturaService.addFactura(factura));
-    } catch (SQLException e){
-        return Response.response(e);
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(facturaService.addFactura(factura));
+        }catch (SQLException e){
+            return Response.response(e);
+        }
     }
+
+    @PutMapping("/finalizar/{tag}")
+    public ResponseEntity<?> finalizarPedido(@PathVariable("tag")String tag){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(facturaService.finalizarPedido(tag));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
     }
+
+
 }

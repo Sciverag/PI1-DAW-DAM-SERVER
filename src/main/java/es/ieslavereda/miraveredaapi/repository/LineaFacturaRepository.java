@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,5 +83,18 @@ public class LineaFacturaRepository implements ILineaFacturaRepository{
             }
         }
         return lineaFacturas;
+    }
+
+    @Override
+    public LineaFactura deleteLineaFactura(int id) throws SQLException {
+        String query = "{call eliminar_linea(?)}";
+        LineaFactura lineaFactura = null;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.setInt(1, id);
+            cs.executeUpdate();
+            lineaFactura = getLineaFacturaById(id);
+        }
+        return lineaFactura;
     }
 }

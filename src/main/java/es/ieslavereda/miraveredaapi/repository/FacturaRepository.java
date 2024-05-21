@@ -65,23 +65,22 @@ public class FacturaRepository implements IFacturaRepository{
     }
 
     @Override
-    public List<Factura> getFacturasByUsuarioId(int id) throws SQLException {
+    public Factura getFacturaByUsuarioId(String tag) throws SQLException {
         String query = "SELECT * FROM FACTURA WHERE ID_USUARIO = ?";
-        List<Factura> facturas = new ArrayList<>();
+        Factura factura = null;
         try (Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setInt(1, id);
+            ps.setString(1, tag);
 
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-                facturas.add(Factura.builder().numero(rs.getInt(1))
-                        .fecha(rs.getDate(2))
-                        .importe_base(rs.getDouble(3))
-                        .importe_IVA(rs.getDouble(4))
-                        .idUsuario(rs.getInt(5)).build());
-            }
+            rs.next();
+            factura = Factura.builder().numero(rs.getInt(1))
+                    .fecha(rs.getDate(2))
+                    .importe_base(rs.getDouble(3))
+                    .importe_IVA(rs.getDouble(4))
+                    .idUsuario(rs.getInt(5)).build();
         }
-        return facturas;
+        return factura;
     }
 
     @Override
@@ -94,6 +93,19 @@ public class FacturaRepository implements IFacturaRepository{
             if (cs.executeUpdate()<1){
                 factura = null;
             }
+        }
+        return factura;
+    }
+
+    @Override
+    public Factura finalizarPedido(String tag) throws SQLException {
+        String query = "{call finalizar_pedido(?)}";
+        Factura factura = null;
+        try (Connection connection = dataSource.getConnection();
+             CallableStatement cs = connection.prepareCall(query)){
+            cs.setString(1, tag);
+            cs.executeUpdate();
+            factura = getFacturaByUsuarioId(tag);
         }
         return factura;
     }

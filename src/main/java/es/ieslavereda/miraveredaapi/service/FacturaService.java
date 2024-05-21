@@ -25,11 +25,15 @@ public class FacturaService {
         return facturaRepository.getFacturaById(id);
     }
 
-    public List<Factura> getFacturaByUsuarioId(int id) throws SQLException{
-        return facturaRepository.getFacturasByUsuarioId(id);
+    public Factura getFacturaByUsuarioId(String tag) throws SQLException{
+        return facturaRepository.getFacturaByUsuarioId(tag);
     }
 
     public Factura addFactura(Factura factura) throws SQLException{
         return facturaRepository.addFactura(factura);
+    }
+
+    public Factura finalizarPedido(String tag) throws SQLException{
+        return facturaRepository.finalizarPedido(tag);
     }
 }

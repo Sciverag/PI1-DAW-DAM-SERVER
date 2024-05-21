@@ -14,6 +14,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de series.
  * Este controlador maneja las solicitudes relacionadas con las series de la aplicación.
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/serie")
 public class SerieController {

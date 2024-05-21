@@ -14,6 +14,7 @@ import java.sql.SQLException;
  * Controlador para la gestión del contenido.
  * Este controlador maneja las solicitudes relacionadas con el contenido de la aplicación.
  */
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/contenido")
 public class ContenidoController {
@@ -39,10 +40,10 @@ public class ContenidoController {
         }
     }
 
-    @PutMapping("/update/puntuacion/&id={id}&punt={punt}")
-    public ResponseEntity<?> updatePuntuacionById(@PathVariable("id") int id, @PathVariable("punt") int punt){
+    @PutMapping("/update/puntuacion/&id={id}&punt={punt}&user={tag}")
+    public ResponseEntity<?> updatePuntuacionById(@PathVariable("id") int id, @PathVariable("punt") float punt, @PathVariable("tag")String tag){
         try {
-            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.updatePuntuacionById(id, punt));
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.updatePuntuacionById(id, tag, punt));
         } catch (SQLException e){
             return Response.response(e);
         }
@@ -52,6 +53,15 @@ public class ContenidoController {
     public ResponseEntity<?> deleteContenido(@RequestBody Contenido contenido){
         try {
             return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.deleteContenido(contenido));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @PostMapping("/add/puntacion/&id={id}&user={tag}&punt={punt}")
+    public ResponseEntity<?> anyadirPuntuacion(@PathVariable("id")int id, @PathVariable("tag")String tag, @PathVariable("punt")float punt){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.anyadirPuntuacion(id,tag,punt));
         } catch (SQLException e){
             return Response.response(e);
         }

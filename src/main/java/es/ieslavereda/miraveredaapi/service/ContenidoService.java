@@ -25,11 +25,15 @@ public class ContenidoService {
         return contenidoRepository.getPrecio(id);
     }
 
-    public int updatePuntuacionById(int id, int punt) throws  SQLException{
-        return contenidoRepository.updatePuntuacionById(id, punt);
+    public int updatePuntuacionById(int id, String tag, float punt) throws  SQLException{
+        return contenidoRepository.updatePuntuacionById(id, tag, punt);
     }
 
     public int deleteContenido(Contenido contenido) throws SQLException{
         return contenidoRepository.deleteContenido(contenido);
+    }
+
+    public float anyadirPuntuacion(int id, String tag, float punt) throws SQLException{
+        return contenidoRepository.anyadirPuntuacion(id,tag,punt);
     }
 }

@@ -54,14 +54,15 @@ public class ContenidoRepository implements IContenidoRepository{
     }
 
     @Override
-    public int updatePuntuacionById(int id, float punt) throws SQLException {
-        String query = "{?= call actualizar_puntuacion(?,?)}";
+    public int updatePuntuacionById(int id, String tag, float punt) throws SQLException {
+        String query = "{?= call actualizar_puntuacion(?,?,?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setInt(1, id);
-            cs.setFloat(2, punt);
+            cs.setString(2, tag);
+            cs.setFloat(3, punt);
 
             resultado = cs.executeUpdate();
         }
@@ -82,6 +83,21 @@ public class ContenidoRepository implements IContenidoRepository{
             resultado = cs.executeUpdate();
         }
         return resultado;
+    }
+
+    @Override
+    public float anyadirPuntuacion(int id, String tag, float punt) throws SQLException {
+        String query = "{call añadir_puntuacion(?,?,?)}";
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1, id);
+            ps.setString(2, tag);
+            ps.setFloat(3, punt);
+
+            ps.executeUpdate();
+
+        }
+        return punt;
     }
 
 

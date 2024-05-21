@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de usuarios.
  * Este controlador maneja las solicitudes relacionadas con los usuarios de la aplicación.
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -85,6 +85,15 @@ public class UsuarioController {
     public ResponseEntity<?> addUsuario(@RequestBody Usuario usuario){
         try {
             return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(usuarioService.addUsuario(usuario));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @PutMapping("/changePassword/&tag={tag}&pass={pass}")
+    public ResponseEntity<?> changePassword(@PathVariable("tag") String tag, @PathVariable("pass")String  pass){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(usuarioService.changePassword(tag, pass));
         } catch (SQLException e){
             return Response.response(e);
         }

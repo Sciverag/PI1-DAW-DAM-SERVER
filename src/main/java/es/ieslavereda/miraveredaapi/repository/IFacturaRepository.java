@@ -12,7 +12,8 @@ public interface IFacturaRepository {
 
    public List<Factura> getFacturas() throws SQLException;
    public Factura getFacturaById(int id) throws SQLException;
-   public List<Factura> getFacturasByUsuarioId(int id) throws SQLException;
+   public Factura getFacturaByUsuarioId(String tag) throws SQLException;
    public Factura addFactura(Factura factura) throws SQLException;
+   public Factura finalizarPedido(String tag) throws SQLException;
 
 }

@@ -40,7 +40,7 @@ public class SerieRepository implements  ISerieRepository{
             serie = Serie.builder().id(rs.getInt(1))
                     .disponible_hasta(rs.getDate(2))
                     .titulo(rs.getString(3))
-                    .descripcion(rs.getString(4)).build();
+                    .descripcion(rs.getString(4)).url_image(rs.getString(5)).build();
 
         }
         return serie;
@@ -60,7 +60,7 @@ public class SerieRepository implements  ISerieRepository{
                 series.add(Serie.builder().id(rs.getInt(1))
                         .disponible_hasta(rs.getDate(2))
                         .titulo(rs.getString(3))
-                        .descripcion(rs.getString(4)).build());
+                        .descripcion(rs.getString(4)).url_image(rs.getString(5)).build());
             }
 
         }
@@ -69,13 +69,14 @@ public class SerieRepository implements  ISerieRepository{
 
     @Override
     public Serie addSerie(Serie serie) throws SQLException {
-        String query = "{call crear_serie(?,?,?)}";
+        String query = "{call crear_serie(?,?,?,?)}";
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
 
             cs.setString(1, serie.getTitulo());
             cs.setString(2, serie.getDescripcion());
             cs.setDate(3, serie.getDisponible_hasta());
+            cs.setString(4, serie.getUrl_image());
 
             if (cs.executeUpdate()<1){
                 serie = null;

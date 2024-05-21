@@ -20,7 +20,11 @@ public class CarroCompraService {
         return carroCompraRepository.getCarroCompraById(id);
     }
 
-    public CarroCompra getCarroCompraByUsuarioId(int id) throws SQLException{
-        return carroCompraRepository.getCarroCompraByUsuarioId(id);
+    public CarroCompra getCarroCompraByUsuarioId(String tag) throws SQLException{
+        return carroCompraRepository.getCarroCompraByUsuarioId(tag);
+    }
+
+    public CarroCompra addLineaFactura(String tag, int id) throws SQLException{
+        return carroCompraRepository.addLineaFactura(tag, id);
     }
 }

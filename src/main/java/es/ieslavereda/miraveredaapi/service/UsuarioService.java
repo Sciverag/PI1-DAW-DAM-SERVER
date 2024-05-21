@@ -45,4 +45,8 @@ public class UsuarioService {
     public Usuario addUsuario(Usuario usuario) throws SQLException{
         return usuarioRepository.addUsuario(usuario);
     }
+
+    public int changePassword(String tag, String pass) throws  SQLException{
+        return usuarioRepository.changePassword(tag, pass);
+    }
 }

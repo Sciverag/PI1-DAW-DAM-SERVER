@@ -6,10 +6,7 @@ import es.ieslavereda.miraveredaapi.service.CarroCompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
@@ -17,6 +14,7 @@ import java.sql.SQLException;
 /**
  * Controlador para la gestión del carro de la compra.
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/carro")
 public class CarroCompraController {
@@ -33,10 +31,19 @@ public class CarroCompraController {
         }
     }
 
-    @GetMapping("/&user={id}")
-    public ResponseEntity<?> getCarroCompraByUsuarioId(@PathVariable("id") int id){
+    @GetMapping("/&user={tag}")
+    public ResponseEntity<?> getCarroCompraByUsuarioId(@PathVariable("tag") String tag){
         try {
-            return new ResponseEntity<>(carroCompraService.getCarroCompraByUsuarioId(id), HttpStatus.OK);
+            return new ResponseEntity<>(carroCompraService.getCarroCompraByUsuarioId(tag), HttpStatus.OK);
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @PostMapping("/addLinea/&user={tag}&idCont={id}")
+    public ResponseEntity<?> addLineaFactura(@PathVariable("tag") String tag, @PathVariable("id")int id){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(carroCompraService.addLineaFactura(tag,id));
         } catch (SQLException e){
             return Response.response(e);
         }

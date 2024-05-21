@@ -26,4 +26,5 @@ public interface IUsuarioRepository {
     public Usuario authenticateUsuario(String login, String password) throws SQLException;
 
     public Usuario addUsuario(Usuario usuario) throws SQLException;
+    public int changePassword(String tag, String pass) throws SQLException;
 }

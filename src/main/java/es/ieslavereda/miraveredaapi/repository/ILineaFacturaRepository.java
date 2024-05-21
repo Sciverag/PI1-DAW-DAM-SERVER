@@ -13,4 +13,5 @@ public interface ILineaFacturaRepository {
     public List<LineaFactura> getLineaFacturasByIdFactura(int id) throws SQLException;
     public LineaFactura getLineaFacturaById(int id) throws SQLException;
     public List<LineaFactura> getLineaFacturasByIdCarro(int id) throws SQLException;
+    public LineaFactura deleteLineaFactura(int id) throws SQLException;
 }

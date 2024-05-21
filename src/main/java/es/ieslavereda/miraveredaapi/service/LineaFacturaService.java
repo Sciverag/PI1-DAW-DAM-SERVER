@@ -28,4 +28,8 @@ public class LineaFacturaService {
     public List<LineaFactura> getLineaFacturasByIdCarro(int id) throws SQLException{
         return lineaFacturaRepository.getLineaFacturasByIdCarro(id);
     }
+
+    public LineaFactura deleteLineafacturaById(int id) throws SQLException{
+        return lineaFacturaRepository.deleteLineaFactura(id);
+    }
 }

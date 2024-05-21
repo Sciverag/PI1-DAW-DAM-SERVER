@@ -14,7 +14,8 @@ public interface IContenidoRepository {
 
     public Double getPrecio(int id) throws SQLException;
 
-    public int updatePuntuacionById(int id, float punt) throws SQLException;
+    public int updatePuntuacionById(int id, String tag, float punt) throws SQLException;
 
     public int deleteContenido(Contenido contenido) throws SQLException;
+    public float anyadirPuntuacion(int id, String tag, float punt) throws SQLException;
 }

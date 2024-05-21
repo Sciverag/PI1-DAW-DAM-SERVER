@@ -35,6 +35,8 @@ public class Serie {
      */
     private String descripcion;
 
+    private String url_image;
+
     /**
      * Compara este objeto con otro para determinar si son iguales.
      * @param object El objeto con el que se va a comparar.
