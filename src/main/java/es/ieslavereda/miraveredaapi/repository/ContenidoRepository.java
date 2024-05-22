@@ -36,18 +36,18 @@ public class ContenidoRepository implements IContenidoRepository{
     }
 
     @Override
-    public Double getPrecio(int id) throws SQLException {
+    public float getPrecio(int id) throws SQLException {
         String query = "SELECT TARIFA.PRECIO AS PRECIO_TARIFA " +
                 "FROM CONTENIDO JOIN TARIFA ON CONTENIDO.ID_TARIFA = TARIFA.ID " +
                 "WHERE CONTENIDO.ID = ?";
-        Double precio = 0.0;
+        float precio = 0;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement ps = connection.prepareStatement(query)){
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
             rs.next();
-            precio = rs.getDouble(1);
+            precio = rs.getFloat(1);
 
         }
         return precio;
@@ -71,14 +71,14 @@ public class ContenidoRepository implements IContenidoRepository{
     }
 
     @Override
-    public int deleteContenido(Contenido contenido) throws SQLException {
+    public int deleteContenido(int id, String tipo) throws SQLException {
         String query = "{?= call eliminar_contenido(?, ?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
-            cs.setInt(2, contenido.getId());
-            cs.setString(3, contenido.getTipo());
+            cs.setInt(2, id);
+            cs.setString(3, tipo);
 
             resultado = cs.executeUpdate();
         }
@@ -98,6 +98,34 @@ public class ContenidoRepository implements IContenidoRepository{
 
         }
         return punt;
+    }
+
+    @Override
+    public Contenido getContenidoByIdLineaFactura(int id) throws SQLException {
+        String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION,C.URL_IMAGEN," +
+                "C.ACTORES,C.PUNT_MEDIA,FECH_ESTRENO,C.DURACION,C.DIRECTOR," +
+                "C.ID_GENERO,C.ID_TARIFA FROM CONTENIDO C JOIN ARTICULO_FACTURAS A " +
+                "ON C.ID = A.ID_CONTENIDO WHERE A.ID_LINEA = ?";
+        Contenido contenido = null;
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            contenido = new Corto(rs.getInt(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5),
+                    rs.getFloat(6),
+                    rs.getDate(7),
+                    rs.getFloat(8),
+                    rs.getString(9),
+                    rs.getInt(10),
+                    rs.getInt(11));
+        }
+        return contenido;
     }
 
 

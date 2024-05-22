@@ -84,4 +84,35 @@ public class SerieRepository implements  ISerieRepository{
         }
         return serie;
     }
+
+    @Override
+    public int updateSerie(Serie serie) throws SQLException {
+        String query = "{?= call actualizar_serie(?,?,?,?,?)}";
+        int resultado = 0;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2,serie.getId());
+            cs.setDate(3, serie.getDisponible_hasta());
+            cs.setString(4, serie.getTitulo());
+            cs.setString(5, serie.getDescripcion());
+            cs.setString(6, serie.getUrl_image());
+
+            resultado = cs.executeUpdate();
+        }
+        return resultado;
+    }
+
+    @Override
+    public int deleteSerie(int id) throws SQLException {
+        String query = "{?= call eliminar_serie(?)}";
+        int resultado = 0;
+        try (Connection connection = dataSource.getConnection();
+        CallableStatement cs = connection.prepareCall(query)){
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2, id);
+            resultado = cs.executeUpdate();
+        }
+        return resultado;
+    }
 }

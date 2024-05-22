@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de tarifas.
  * Este controlador maneja las solicitudes relacionadas con las tarifas de la aplicación.
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/tarifa")
 public class TarifaController {

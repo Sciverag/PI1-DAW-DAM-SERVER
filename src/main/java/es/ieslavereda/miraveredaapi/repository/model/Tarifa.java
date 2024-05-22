@@ -23,7 +23,7 @@ public class Tarifa {
     /**
      * El precio de la tarifa.
      */
-    private Double precio;
+    private float precio;
 
     /**
      * Compara este objeto con otro para determinar si son iguales.

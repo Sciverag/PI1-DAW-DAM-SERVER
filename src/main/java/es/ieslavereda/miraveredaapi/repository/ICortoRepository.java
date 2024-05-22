@@ -10,4 +10,5 @@ public interface ICortoRepository {
     public Corto getCortoById(int id) throws SQLException;
     public Corto addCorto(Corto corto) throws SQLException;
     public int updateCorto(Corto corto) throws SQLException;
+    public List<Corto> getCortosAlquilados(String tag) throws SQLException;
 }

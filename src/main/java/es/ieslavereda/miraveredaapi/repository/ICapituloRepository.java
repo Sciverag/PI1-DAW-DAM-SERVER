@@ -11,4 +11,5 @@ public interface ICapituloRepository {
     public List<Capitulo> getCapitulosBySerie(int id) throws SQLException;
     public Capitulo addCapitulo(Capitulo capitulo) throws SQLException;
     public int updateCapitulo(Capitulo capitulo) throws SQLException;
+    public List<Capitulo> getCapitulosAlquilados(String tag) throws SQLException;
 }

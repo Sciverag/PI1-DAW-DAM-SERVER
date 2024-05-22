@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/contenido/capitulo")
 public class CapituloController {
@@ -62,6 +62,15 @@ public class CapituloController {
     public ResponseEntity<?> updateCapitulo(@RequestBody Capitulo capitulo){
         try {
             return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(capituloService.updateCapitulo(capitulo));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @GetMapping("/alquilados/{tag}")
+    public ResponseEntity<?> getCapitulosAlquilados(@PathVariable("tag")String tag){
+        try {
+            return new ResponseEntity<>(capituloService.getCapitulosAlquilados(tag), HttpStatus.OK);
         } catch (SQLException e){
             return Response.response(e);
         }

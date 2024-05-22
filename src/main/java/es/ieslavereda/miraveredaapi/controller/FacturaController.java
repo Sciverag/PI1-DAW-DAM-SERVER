@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de facturas.
  * Este controlador maneja las solicitudes relacionadas con las facturas de la aplicación.
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/factura")
 public class FacturaController {

@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de líneas de factura.
  * Este controlador maneja las solicitudes relacionadas con las líneas de factura de la aplicación.
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/lineaFactura")
 public class LineaFacturaController {

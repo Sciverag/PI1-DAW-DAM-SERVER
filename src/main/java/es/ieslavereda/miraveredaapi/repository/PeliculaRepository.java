@@ -98,10 +98,6 @@ public class PeliculaRepository implements IPeliculaRepository{
         try (Connection connection = dataSource.getConnection();
              CallableStatement cs = connection.prepareCall(query)){
 
-            if (getPeliculaById(pelicula.getId())!=null){
-                return null;
-            }
-
             cs.setString(1, pelicula.getTitulo());
             cs.setString(2, pelicula.getDescripcion());
             cs.setString(3, pelicula.getURL_image());
@@ -144,6 +140,37 @@ public class PeliculaRepository implements IPeliculaRepository{
             resultado = cs.executeUpdate();
         }
         return resultado;
+    }
+
+    @Override
+    public List<Pelicula> getPeliculasAlquiladas(String tag) throws SQLException {
+        String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION," +
+                "C.URL_IMAGEN,C.ACTORES,C.PUNT_MEDIA,FECH_ESTRENO," +
+                "C.DURACION,C.DIRECTOR,C.ID_GENERO,C.ID_TARIFA," +
+                "P.DISPONIBLE_HASTA FROM (CONTENIDO C JOIN PELICULA P ON C.ID = P.ID_CONT) " +
+                "JOIN ALQUILA A ON C.ID = A.ID_CONTENIDO WHERE ? = A.ID_USUARIO";
+        List<Pelicula> peliculas = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, tag);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                peliculas.add(new Pelicula(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getFloat(6),
+                        rs.getDate(7),
+                        rs.getFloat(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getInt(11),
+                        rs.getDate(12)));
+            }
+        }
+        return peliculas;
     }
 
 }

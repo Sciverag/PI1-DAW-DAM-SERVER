@@ -34,7 +34,7 @@ public class TarifaRepository implements ITarifaRepository{
             while (rs.next()){
                 tarifas.add(Tarifa.builder()
                         .codigo(rs.getInt(1))
-                        .precio(rs.getDouble(2)).build());
+                        .precio(rs.getFloat(2)).build());
             }
         }
         return tarifas;
@@ -52,7 +52,7 @@ public class TarifaRepository implements ITarifaRepository{
             rs.next();
             tarifa = Tarifa.builder()
                     .codigo(rs.getInt(1))
-                    .precio(rs.getDouble(2)).build();
+                    .precio(rs.getFloat(2)).build();
 
         }
         return tarifa;

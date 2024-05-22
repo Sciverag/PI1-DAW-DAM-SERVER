@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de series.
  * Este controlador maneja las solicitudes relacionadas con las series de la aplicación.
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/serie")
 public class SerieController {
@@ -44,6 +44,24 @@ public class SerieController {
     public ResponseEntity<?> addSerie(@RequestBody Serie serie){
         try {
             return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(serieService.addSerie(serie));
+        }catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateSerie(@RequestBody Serie serie){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(serieService.updateSerie(serie));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteSerie(@PathVariable("id")int id){
+        try {
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(serieService.deleteSerie(id));
         }catch (SQLException e){
             return Response.response(e);
         }

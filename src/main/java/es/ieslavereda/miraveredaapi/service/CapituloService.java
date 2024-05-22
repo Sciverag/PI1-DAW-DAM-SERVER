@@ -35,4 +35,8 @@ public class CapituloService {
         return capituloRepository.updateCapitulo(capitulo);
     }
 
+    public List<Capitulo> getCapitulosAlquilados(String tag) throws SQLException{
+        return capituloRepository.getCapitulosAlquilados(tag);
+    }
+
 }

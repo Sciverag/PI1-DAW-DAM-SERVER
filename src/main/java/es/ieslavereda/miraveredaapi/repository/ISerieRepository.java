@@ -13,5 +13,7 @@ public interface ISerieRepository {
     public Serie getSerieById(int id) throws SQLException;
     public List<Serie> getSeries() throws SQLException;
     public Serie addSerie(Serie serie) throws SQLException;
+    public int updateSerie(Serie serie) throws SQLException;
+    public int deleteSerie(int id) throws SQLException;
 
 }

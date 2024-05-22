@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/contenido/corto")
 public class CortoController {
@@ -52,6 +52,15 @@ public class CortoController {
     public ResponseEntity<?> updateCorto(@RequestBody Corto corto){
         try {
             return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(cortoService.updateCorto(corto));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @GetMapping("/alquilados/{tag}")
+    public ResponseEntity<?> getCapitulosAlquilados(@PathVariable("tag")String tag){
+        try {
+            return new ResponseEntity<>(cortoService.getCortosAlquilados(tag), HttpStatus.OK);
         } catch (SQLException e){
             return Response.response(e);
         }

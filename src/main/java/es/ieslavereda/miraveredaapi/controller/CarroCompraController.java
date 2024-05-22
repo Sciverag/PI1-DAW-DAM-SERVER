@@ -14,7 +14,7 @@ import java.sql.SQLException;
 /**
  * Controlador para la gestión del carro de la compra.
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/carro")
 public class CarroCompraController {

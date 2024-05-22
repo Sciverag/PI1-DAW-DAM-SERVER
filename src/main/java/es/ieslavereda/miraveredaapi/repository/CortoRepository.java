@@ -138,5 +138,35 @@ public class CortoRepository implements ICortoRepository{
         return resultado;
     }
 
+    @Override
+    public List<Corto> getCortosAlquilados(String tag) throws SQLException {
+        String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION," +
+                "C.URL_IMAGEN,C.ACTORES,C.PUNT_MEDIA,FECH_ESTRENO," +
+                "C.DURACION,C.DIRECTOR,C.ID_GENERO,C.ID_TARIFA FROM (CONTENIDO " +
+                "C JOIN CORTO CO ON CO.ID_CONT = C.ID) JOIN ALQUILA A " +
+                "ON C.ID = A.ID_CONTENIDO WHERE ? = A.ID_USUARIO";
+        List<Corto> cortos = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, tag);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+                cortos.add(new Corto(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getFloat(6),
+                        rs.getDate(7),
+                        rs.getFloat(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getInt(11)));
+            }
+        }
+        return cortos;
+    }
+
 
 }

@@ -12,10 +12,11 @@ public interface IContenidoRepository {
 
     public List<Contenido> getContenidos() throws SQLException;
 
-    public Double getPrecio(int id) throws SQLException;
+    public float getPrecio(int id) throws SQLException;
 
     public int updatePuntuacionById(int id, String tag, float punt) throws SQLException;
 
-    public int deleteContenido(Contenido contenido) throws SQLException;
+    public int deleteContenido(int id, String tipo) throws SQLException;
     public float anyadirPuntuacion(int id, String tag, float punt) throws SQLException;
+    public Contenido getContenidoByIdLineaFactura(int id) throws SQLException;
 }

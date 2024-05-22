@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * Controlador para la gestión de géneros.
  * Este controlador maneja las solicitudes relacionadas con los géneros de la aplicación.
  */
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/genero")
 public class GeneroController {

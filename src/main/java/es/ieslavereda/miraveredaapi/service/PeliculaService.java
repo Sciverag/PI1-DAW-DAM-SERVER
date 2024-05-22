@@ -30,4 +30,8 @@ public class PeliculaService {
     public int updatePelicula(Pelicula pelicula) throws SQLException{
         return peliculaRepository.updatePelicula(pelicula);
     }
+
+    public List<Pelicula> getPeliculasAlquiladas(String tag) throws SQLException{
+        return peliculaRepository.getPeliculasAlquiladas(tag);
+    }
 }

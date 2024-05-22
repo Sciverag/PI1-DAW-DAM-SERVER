@@ -91,10 +91,10 @@ public class CapituloRepository implements ICapituloRepository{
 
     @Override
     public List<Capitulo> getCapitulosBySerie(int id) throws SQLException {
-        String query = "SELECT CAPITULO.ID_CONT AS ID_CAPITULO, " +
-                "CAPITULO.TEMPORADA, SERIE.ID AS ID_SERIE, " +
-                "SERIE.TITULO AS TITULO_SERIE, SERIE.DESCRIPCION AS DESCRIPCION_SERIE " +
-                "FROM CAPITULO JOIN SERIE ON CAPITULO.ID_SERIE = SERIE.ID WHERE SERIE.ID = ?";
+        String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION,C.URL_IMAGEN,C.ACTORES," +
+                "C.PUNT_MEDIA,FECH_ESTRENO,C.DURACION,C.DIRECTOR,C.ID_GENERO,C.ID_TARIFA," +
+                "CA.TEMPORADA,CA.ID_SERIE FROM CONTENIDO C JOIN CAPITULO " +
+                "CA ON C.ID = CA.ID_CONT AND CA.ID_SERIE = ?";
 
         List<Capitulo> capitulos = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
@@ -128,10 +128,6 @@ public class CapituloRepository implements ICapituloRepository{
         String query = "{call crear_capitulo(?,?,?,?,?,?,?,?,?,?,?,?)}";
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
-
-/*            if (getCapituloById(capitulo.getId()) != null){
-                return null;
-            }*/
 
             cs.setString(1, capitulo.getTitulo());
             cs.setString(2, capitulo.getDescripcion());
@@ -179,5 +175,36 @@ public class CapituloRepository implements ICapituloRepository{
 
         }
         return resultado;
+    }
+
+    @Override
+    public List<Capitulo> getCapitulosAlquilados(String tag) throws SQLException {
+        String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION," +
+                "C.URL_IMAGEN,C.ACTORES,C.PUNT_MEDIA,FECH_ESTRENO," +
+                "C.DURACION,C.DIRECTOR,C.ID_GENERO,C.ID_TARIFA,CA.TEMPORADA," +
+                "CA.ID_SERIE FROM (CONTENIDO C JOIN CAPITULO CA ON C.ID = CA.ID_CONT) " +
+                "JOIN ALQUILA A ON C.ID = A.ID_CONTENIDO WHERE ? = A.ID_USUARIO";
+        List<Capitulo> capitulos = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement(query)){
+            ps.setString(1, tag);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                capitulos.add(new Capitulo(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getFloat(6),
+                        rs.getDate(7),
+                        rs.getFloat(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getInt(11),
+                        rs.getInt(12),
+                        rs.getInt(13)));
+            }
+        }
+        return capitulos;
     }
 }

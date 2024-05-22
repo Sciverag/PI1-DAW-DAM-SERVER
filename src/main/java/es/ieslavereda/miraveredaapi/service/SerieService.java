@@ -28,4 +28,12 @@ public class SerieService {
     public Serie addSerie(Serie serie) throws SQLException{
         return serieRepository.addSerie(serie);
     }
+
+    public int updateSerie(Serie serie) throws SQLException{
+        return serieRepository.updateSerie(serie);
+    }
+
+    public int deleteSerie(int id) throws SQLException{
+        return serieRepository.deleteSerie(id);
+    }
 }

@@ -30,4 +30,8 @@ public class CortoService {
     public int updateCorto(Corto corto) throws SQLException{
         return cortoRepository.updateCorto(corto);
     }
+
+    public List<Corto> getCortosAlquilados(String tag) throws SQLException{
+        return cortoRepository.getCortosAlquilados(tag);
+    }
 }

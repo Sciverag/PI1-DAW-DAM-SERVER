@@ -21,7 +21,7 @@ public class ContenidoService {
         return contenidoRepository.getContenidos();
     }
 
-    public Double getPrecio(int id) throws SQLException{
+    public float getPrecio(int id) throws SQLException{
         return contenidoRepository.getPrecio(id);
     }
 
@@ -29,11 +29,15 @@ public class ContenidoService {
         return contenidoRepository.updatePuntuacionById(id, tag, punt);
     }
 
-    public int deleteContenido(Contenido contenido) throws SQLException{
-        return contenidoRepository.deleteContenido(contenido);
+    public int deleteContenido(int id, String tipo) throws SQLException{
+        return contenidoRepository.deleteContenido(id, tipo);
     }
 
     public float anyadirPuntuacion(int id, String tag, float punt) throws SQLException{
         return contenidoRepository.anyadirPuntuacion(id,tag,punt);
+    }
+
+    public Contenido getContenidoByIdLinea(int id) throws SQLException{
+        return contenidoRepository.getContenidoByIdLineaFactura(id);
     }
 }

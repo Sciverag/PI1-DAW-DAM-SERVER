@@ -49,10 +49,10 @@ public class ContenidoController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteContenido(@RequestBody Contenido contenido){
+    @DeleteMapping("/delete/&id={id}&tipo={tipo}")
+    public ResponseEntity<?> deleteContenido(@PathVariable("id")int id, @PathVariable("tipo")String tipo){
         try {
-            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.deleteContenido(contenido));
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.deleteContenido(id, tipo));
         } catch (SQLException e){
             return Response.response(e);
         }
@@ -62,6 +62,15 @@ public class ContenidoController {
     public ResponseEntity<?> anyadirPuntuacion(@PathVariable("id")int id, @PathVariable("tag")String tag, @PathVariable("punt")float punt){
         try {
             return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.anyadirPuntuacion(id,tag,punt));
+        } catch (SQLException e){
+            return Response.response(e);
+        }
+    }
+
+    @GetMapping("/lineaFactura/{id}")
+    public ResponseEntity<?> getContenidoByIdLinea(@PathVariable("id") int id){
+        try{
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(contenidoService.getContenidoByIdLinea(id));
         } catch (SQLException e){
             return Response.response(e);
         }

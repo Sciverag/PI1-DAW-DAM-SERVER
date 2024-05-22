@@ -11,4 +11,5 @@ public interface IPeliculaRepository {
     public Pelicula getPeliculaById(int id) throws SQLException;
     public Pelicula addPelicula(Pelicula pelicula) throws SQLException;
     public int updatePelicula(Pelicula pelicula) throws SQLException;
+    public List<Pelicula> getPeliculasAlquiladas(String tag) throws SQLException;
 }
