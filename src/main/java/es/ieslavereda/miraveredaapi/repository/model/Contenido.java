@@ -69,9 +69,19 @@ public abstract class Contenido {
     private int idTarifa;
 
     /**
-     * La fecha de la última modificación del contenido.
+     * Constructor para inicializar un objeto Contenido con sus atributos.
+     * @param id              El ID del contenido.
+     * @param titulo          El título del contenido.
+     * @param descripcion     La descripción del contenido.
+     * @param URL_image       La URL de la imagen asociada con el contenido.
+     * @param actores         Los actores que participan en el contenido.
+     * @param puntMedia       La puntuación media del contenido.
+     * @param fechaEstreno    La fecha de estreno del contenido.
+     * @param duracion_minutos La duración del contenido en minutos.
+     * @param director        El director del contenido.
+     * @param idGenero        El ID del género al que pertenece el contenido.
+     * @param idTarifa        El ID de la tarifa asociada con el contenido.
      */
-
     public Contenido(int id, String titulo, String descripcion, String URL_image, String actores, float puntMedia, Date fechaEstreno, float duracion_minutos, String director, int idGenero, int idTarifa) {
         this.id = id;
         this.titulo = titulo;
@@ -110,6 +120,10 @@ public abstract class Contenido {
         return id;
     }
 
+    /**
+     * Devuelve el tipo de contenido.
+     * @return El tipo de contenido como una cadena de caracteres.
+     */
     public abstract String getTipo();
 
 }

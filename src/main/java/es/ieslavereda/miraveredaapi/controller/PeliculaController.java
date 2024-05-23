@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
+
+/**
+ * Controlador para la gestión de películas.
+ * Este controlador maneja las solicitudes relacionadas con las películas de la aplicación.
+ */
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/contenido/pelicula")
@@ -17,6 +22,11 @@ public class PeliculaController {
     @Autowired
     private PeliculaService peliculaService;
 
+    /**
+     * Obtiene todas las películas.
+     *
+     * @return ResponseEntity con la lista de películas y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/")
     public ResponseEntity<?> getPeliculas(){
         try {
@@ -26,6 +36,12 @@ public class PeliculaController {
         }
     }
 
+    /**
+     * Obtiene una película por su ID.
+     *
+     * @param id el ID de la película.
+     * @return ResponseEntity con la película y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getPeliculaById(@PathVariable("id")int id) {
         try {
@@ -39,6 +55,12 @@ public class PeliculaController {
         }
     }
 
+    /**
+     * Añade una nueva película.
+     *
+     * @param pelicula el objeto Pelicula que se va a añadir.
+     * @return ResponseEntity con el resultado de la operación y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @PostMapping("/add")
     public ResponseEntity<?> addPelicula(@RequestBody Pelicula pelicula){
         try {
@@ -48,6 +70,12 @@ public class PeliculaController {
         }
     }
 
+    /**
+     * Actualiza una película existente.
+     *
+     * @param pelicula el objeto Pelicula que se va a actualizar.
+     * @return ResponseEntity con el resultado de la operación y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @PutMapping("/update")
     public ResponseEntity<?> updatePelicula(@RequestBody Pelicula pelicula){
         try {
@@ -57,6 +85,12 @@ public class PeliculaController {
         }
     }
 
+    /**
+     * Obtiene las películas alquiladas por un usuario.
+     *
+     * @param tag el identificador del usuario.
+     * @return ResponseEntity con la lista de películas alquiladas y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/alquilados/{tag}")
     public ResponseEntity<?> getPeliculasAlquilados(@PathVariable("tag")String tag){
         try {

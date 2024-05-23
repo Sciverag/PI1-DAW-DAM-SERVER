@@ -25,7 +25,12 @@ public class SerieRepository implements  ISerieRepository{
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
-
+    /**
+     * Obtiene una serie por su identificador.
+     * @param id El identificador de la serie.
+     * @return La serie con el identificador dado, o null si no se encuentra ninguna serie con ese identificador.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public Serie getSerieById(int id) throws SQLException {
         String query = "SELECT * FROM SERIE WHERE ID = ?";
@@ -46,6 +51,11 @@ public class SerieRepository implements  ISerieRepository{
         return serie;
     }
 
+    /**
+     * Obtiene todas las series de la base de datos.
+     * @return Una lista de todas las series disponibles en la base de datos.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public List<Serie> getSeries() throws SQLException {
         String query = "SELECT * FROM SERIE";
@@ -67,11 +77,18 @@ public class SerieRepository implements  ISerieRepository{
         return series;
     }
 
+    /**
+     * Añade una nueva serie a la base de datos.
+     *
+     * @param serie La serie que se va a añadir.
+     * @return La serie añadida si la inserción fue exitosa, de lo contrario null.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public Serie addSerie(Serie serie) throws SQLException {
         String query = "{call crear_serie(?,?,?,?)}";
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
 
             cs.setString(1, serie.getTitulo());
             cs.setString(2, serie.getDescripcion());
@@ -85,12 +102,19 @@ public class SerieRepository implements  ISerieRepository{
         return serie;
     }
 
+    /**
+     * Actualiza una serie en la base de datos.
+     *
+     * @param serie La serie actualizada.
+     * @return El número de filas actualizadas en la base de datos.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public int updateSerie(Serie serie) throws SQLException {
         String query = "{?= call actualizar_serie(?,?,?,?,?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setInt(2,serie.getId());
             cs.setDate(3, serie.getDisponible_hasta());
@@ -103,16 +127,24 @@ public class SerieRepository implements  ISerieRepository{
         return resultado;
     }
 
+    /**
+     * Elimina una serie de la base de datos.
+     *
+     * @param id El identificador de la serie que se va a eliminar.
+     * @return El número de filas afectadas en la base de datos.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public int deleteSerie(int id) throws SQLException {
         String query = "{?= call eliminar_serie(?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setInt(2, id);
             resultado = cs.executeUpdate();
         }
         return resultado;
     }
+
 }

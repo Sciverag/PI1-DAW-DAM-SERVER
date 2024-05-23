@@ -20,6 +20,11 @@ public class TarifaController {
     @Autowired
     private TarifaService tarifaService;
 
+    /**
+     * Obtiene todas las tarifas.
+     *
+     * @return ResponseEntity con la lista de tarifas y el estado HTTP OK.
+     */
     @GetMapping("/")
     public ResponseEntity<?> getTarifas(){
         try {
@@ -29,6 +34,12 @@ public class TarifaController {
         }
     }
 
+    /**
+     * Obtiene una tarifa por su ID.
+     *
+     * @param id el ID de la tarifa.
+     * @return ResponseEntity con la tarifa encontrada y el estado HTTP OK, o un mensaje de error y el estado HTTP correspondiente.
+     */
     @GetMapping("/id")
     public ResponseEntity<?> getTarifaById(@PathVariable("id") int id){
         try {

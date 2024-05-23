@@ -21,6 +21,11 @@ public class GeneroController {
     @Autowired
     private GeneroService generoService;
 
+    /**
+     * Obtiene todos los géneros.
+     *
+     * @return ResponseEntity con la lista de géneros y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/")
     public ResponseEntity<?> getGeneros(){
         try {
@@ -30,6 +35,12 @@ public class GeneroController {
         }
     }
 
+    /**
+     * Obtiene un género por su ID.
+     *
+     * @param id el ID del género.
+     * @return ResponseEntity con el género y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/id")
     public ResponseEntity<?> getGeneroById(@PathVariable("id") int id){
         try {

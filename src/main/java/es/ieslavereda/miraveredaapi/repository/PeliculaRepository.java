@@ -14,13 +14,24 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repositorio para acceder a las películas en la base de datos.
+ */
 @Repository
 public class PeliculaRepository implements IPeliculaRepository{
 
+    /**
+     * Fuente de datos para acceder a la base de datos Oracle.
+     */
     @Autowired
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
+    /**
+     * Obtiene todas las películas de la base de datos.
+     * @return Lista de películas.
+     * @throws SQLException Si hay un error de SQL.
+     */
     public static List<Pelicula> getPeliculas() throws SQLException{
         OracleDataSource dataSource = OracleDataSourceDB.getOracleDataSource();
 
@@ -91,6 +102,12 @@ public class PeliculaRepository implements IPeliculaRepository{
         return pelicula;
     }
 
+    /**
+     * Añade una nueva película a la base de datos.
+     * @param pelicula La película que se va a añadir.
+     * @return La película añadida si la inserción fue exitosa, de lo contrario null.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public Pelicula addPelicula(Pelicula pelicula) throws SQLException {
         String query = "{call crear_pelicula(?,?,?,?,?,?,?,?,?,?,?)}";
@@ -117,12 +134,18 @@ public class PeliculaRepository implements IPeliculaRepository{
         return pelicula;
     }
 
+    /**
+     * Actualiza una película en la base de datos.
+     * @param pelicula La película actualizada.
+     * @return El número de filas actualizadas en la base de datos.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public int updatePelicula(Pelicula pelicula) throws SQLException {
         String query = "{?= call actualizar_pelicula(?,?,?,?,?,?,?,?,?,?,?,?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setInt(2, pelicula.getId());
             cs.setDate(3, pelicula.getDisponible_hasta());
@@ -142,6 +165,12 @@ public class PeliculaRepository implements IPeliculaRepository{
         return resultado;
     }
 
+    /**
+     * Obtiene todas las películas alquiladas por un usuario.
+     * @param tag El identificador del usuario.
+     * @return Lista de películas alquiladas por el usuario.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public List<Pelicula> getPeliculasAlquiladas(String tag) throws SQLException {
         String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION," +
@@ -151,7 +180,7 @@ public class PeliculaRepository implements IPeliculaRepository{
                 "JOIN ALQUILA A ON C.ID = A.ID_CONTENIDO WHERE ? = A.ID_USUARIO";
         List<Pelicula> peliculas = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, tag);
             ResultSet rs = ps.executeQuery();
 
@@ -172,5 +201,6 @@ public class PeliculaRepository implements IPeliculaRepository{
         }
         return peliculas;
     }
+
 
 }

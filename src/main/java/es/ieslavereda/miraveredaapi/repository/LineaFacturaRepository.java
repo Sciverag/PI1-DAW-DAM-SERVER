@@ -25,6 +25,13 @@ public class LineaFacturaRepository implements ILineaFacturaRepository{
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
+    /**
+     * Obtiene una lista de todas las líneas de factura asociadas a una factura específica.
+     *
+     * @param id El identificador de la factura.
+     * @return Una lista de objetos LineaFactura.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<LineaFactura> getLineaFacturasByIdFactura(int id) throws SQLException {
         String query = "SELECT * FROM LINEA_FACTURA WHERE NUM_FACTURA = ?";
@@ -45,12 +52,19 @@ public class LineaFacturaRepository implements ILineaFacturaRepository{
         return lineaFacturas;
     }
 
+    /**
+     * Obtiene una línea de factura por su identificador.
+     *
+     * @param id El identificador de la línea de factura.
+     * @return Un objeto LineaFactura si se encuentra, de lo contrario null.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public LineaFactura getLineaFacturaById(int id) throws SQLException {
         String query = "SELECT * FROM LINEA_FACTURA WHERE ID = ?";
         LineaFactura lineaFactura = null;
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
@@ -65,12 +79,19 @@ public class LineaFacturaRepository implements ILineaFacturaRepository{
         return lineaFactura;
     }
 
+    /**
+     * Obtiene una lista de todas las líneas de factura asociadas a un carro de compra específico.
+     *
+     * @param id El identificador del carro de compra.
+     * @return Una lista de objetos LineaFactura.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<LineaFactura> getLineaFacturasByIdCarro(int id) throws SQLException {
         String query = "SELECT * FROM LINEA_FACTURA WHERE ID_CARRO = ?";
         List<LineaFactura> lineaFacturas = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
@@ -85,12 +106,19 @@ public class LineaFacturaRepository implements ILineaFacturaRepository{
         return lineaFacturas;
     }
 
+    /**
+     * Elimina una línea de factura por su identificador.
+     *
+     * @param id El identificador de la línea de factura a eliminar.
+     * @return La línea de factura eliminada.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public LineaFactura deleteLineaFactura(int id) throws SQLException {
         String query = "{call eliminar_linea(?)}";
         LineaFactura lineaFactura = null;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.setInt(1, id);
             cs.executeUpdate();
             lineaFactura = getLineaFacturaById(id);

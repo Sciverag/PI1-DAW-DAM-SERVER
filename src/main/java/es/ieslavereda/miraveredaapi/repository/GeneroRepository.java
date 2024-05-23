@@ -1,7 +1,6 @@
 package es.ieslavereda.miraveredaapi.repository;
 
 import es.ieslavereda.miraveredaapi.repository.model.Genero;
-import es.ieslavereda.miraveredaapi.repository.model.OracleDataSourceDB;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +23,12 @@ public class GeneroRepository implements IGeneroRepository{
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
+    /**
+     * Obtiene todos los géneros almacenados en la base de datos.
+     *
+     * @return Una lista de todos los géneros almacenados en la base de datos.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<Genero> getGeneros() throws SQLException {
         String query = "SELECT * FROM GENERO";
@@ -40,6 +45,13 @@ public class GeneroRepository implements IGeneroRepository{
         return generos;
     }
 
+    /**
+     * Obtiene un género por su ID.
+     *
+     * @param id El ID del género.
+     * @return El género correspondiente al ID especificado.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Genero getGeneroById(int id) throws SQLException {
         String query = "SELECT * FROM GENERO WHERE ID = ?";

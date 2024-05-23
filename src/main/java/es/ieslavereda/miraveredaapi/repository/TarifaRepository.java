@@ -1,7 +1,5 @@
 package es.ieslavereda.miraveredaapi.repository;
 
-import es.ieslavereda.miraveredaapi.repository.model.Factura;
-import es.ieslavereda.miraveredaapi.repository.model.OracleDataSourceDB;
 import es.ieslavereda.miraveredaapi.repository.model.Tarifa;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import java.util.List;
  */
 @Repository
 public class TarifaRepository implements ITarifaRepository{
+
     /**
      * Fuente de datos Oracle que se utilizará para acceder a la base de datos.
      */
@@ -24,6 +23,11 @@ public class TarifaRepository implements ITarifaRepository{
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
+    /**
+     * Obtiene todas las tarifas de la base de datos.
+     * @return Lista de todas las tarifas disponibles en la base de datos.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public List<Tarifa> getTarifas() throws SQLException {
         String query = "SELECT * FROM TARIFA";
@@ -40,12 +44,18 @@ public class TarifaRepository implements ITarifaRepository{
         return tarifas;
     }
 
+    /**
+     * Obtiene una tarifa por su identificador.
+     * @param id El identificador de la tarifa.
+     * @return La tarifa con el identificador dado, o null si no se encuentra ninguna tarifa con ese identificador.
+     * @throws SQLException Si hay un error de SQL.
+     */
     @Override
     public Tarifa getTarifaById(int id) throws SQLException {
         String query = "SELECT * FROM WHERE ID = ?";
         Tarifa tarifa = null;
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 

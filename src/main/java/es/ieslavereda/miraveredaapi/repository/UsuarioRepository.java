@@ -1,6 +1,5 @@
 package es.ieslavereda.miraveredaapi.repository;
 
-import es.ieslavereda.miraveredaapi.repository.model.OracleDataSourceDB;
 import es.ieslavereda.miraveredaapi.repository.model.Usuario;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +54,13 @@ public class UsuarioRepository implements IUsuarioRepository{
         return usuarios;
     }
 
+    /**
+     * Autentica un usuario basado en su nombre de usuario y contraseña.
+     * @param login Nombre de usuario del usuario.
+     * @param passwd Contraseña del usuario.
+     * @return El usuario autenticado si las credenciales son válidas, de lo contrario null.
+     * @throws SQLException Si ocurre un error durante la autenticación.
+     */
     @Override
     public Usuario authenticateUsuario(String login, String passwd) throws SQLException{
         Usuario usuario = null;
@@ -75,12 +81,18 @@ public class UsuarioRepository implements IUsuarioRepository{
         return usuario;
     }
 
+    /**
+     * Añade un nuevo usuario a la base de datos.
+     * @param usuario El usuario que se va a añadir.
+     * @return El usuario añadido si la inserción fue exitosa, de lo contrario null.
+     * @throws SQLException Si ocurre un error durante la inserción del usuario.
+     */
     @Override
     public Usuario addUsuario(Usuario usuario) throws SQLException {
         String query = "{call crear_usuario(?,?,?,?,?,?,?,?,?)}";
 
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.setString(1, usuario.getNombreUsuario());
             cs.setString(2, usuario.getContrasenya());
             cs.setString(3, usuario.getDomicilio());
@@ -97,13 +109,19 @@ public class UsuarioRepository implements IUsuarioRepository{
         }
         return usuario;
     }
-
     @Override
     public int changePassword(String tag, String pass) throws SQLException {
+        /**
+         * Cambia la contraseña de un usuario.
+         * @param tag El nombre de usuario del usuario cuya contraseña se va a cambiar.
+         * @param pass La nueva contraseña.
+         * @return El número de filas afectadas por el cambio de contraseña.
+         * @throws SQLException Si hay un error al cambiar la contraseña.
+         */
         String query = "SELECT COUNT(*) FROM USUARIO WHERE TAG_USUARIO = ?";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, tag);
             ResultSet rs = ps.executeQuery();
 
@@ -117,11 +135,17 @@ public class UsuarioRepository implements IUsuarioRepository{
 
     @Override
     public int deleteUsuario(String tag) throws SQLException {
+        /**
+         * Elimina un usuario de la base de datos.
+         * @param tag El nombre de usuario del usuario que se va a eliminar.
+         * @return El resultado de la operación de eliminación.
+         * @throws SQLException Si hay un error al eliminar el usuario.
+         */
         int resultado = 0;
         String query = "{? = call eliminar_usuario(?)}";
 
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setString(2, tag);
             cs.execute();
@@ -133,10 +157,16 @@ public class UsuarioRepository implements IUsuarioRepository{
 
     @Override
     public int actualizarUsuario(Usuario usuario) throws SQLException {
+        /**
+         * Actualiza la información de un usuario en la base de datos.
+         * @param usuario El usuario con la información actualizada.
+         * @return El número de filas afectadas por la actualización.
+         * @throws SQLException Si hay un error al actualizar la información del usuario.
+         */
         int resultado = 0;
         String query = "{?= call actualizar_usuario(?,?,?,?,?,?,?,?,?)}";
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setString(2, usuario.getNombreUsuario());
             cs.setString(3, usuario.getContrasenya());
@@ -155,11 +185,17 @@ public class UsuarioRepository implements IUsuarioRepository{
 
     @Override
     public Usuario getUsuarioByTag(String tag) throws SQLException {
+        /**
+         * Obtiene un usuario por su nombre de usuario.
+         * @param tag El nombre de usuario del usuario que se va a buscar.
+         * @return El usuario correspondiente al nombre de usuario dado.
+         * @throws SQLException Si hay un error al obtener el usuario.
+         */
         Usuario usuario = new Usuario();
         String query = "SELECT * FROM USUARIO WHERE TAG_USUARIO = ?";
 
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, tag);
 
             ResultSet rs = ps.executeQuery();
@@ -178,6 +214,7 @@ public class UsuarioRepository implements IUsuarioRepository{
         }
         return usuario;
     }
+
 
 
 }

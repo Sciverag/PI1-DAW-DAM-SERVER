@@ -13,14 +13,26 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que proporciona acceso a los datos de cortometrajes en la base de datos.
+ */
 @Repository
 public class CortoRepository implements ICortoRepository{
 
+    /**
+     * Fuente de datos Oracle que se utilizará para acceder a la base de datos.
+     */
     @Autowired
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
 
+    /**
+     * Obtiene todos los cortometrajes de la base de datos.
+     *
+     * @return Una lista de cortometrajes.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     public static List<Corto> getCortos() throws SQLException {
         OracleDataSource dataSource = OracleDataSourceDB.getOracleDataSource();
 
@@ -52,6 +64,13 @@ public class CortoRepository implements ICortoRepository{
         return cortos;
     }
 
+    /**
+     * Obtiene un cortometraje por su ID.
+     *
+     * @param id El ID del cortometraje.
+     * @return El cortometraje correspondiente al ID especificado.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Corto getCortoById(int id) throws SQLException {
         String query = "SELECT c.ID AS ID_CONTENIDO, " +
@@ -88,12 +107,19 @@ public class CortoRepository implements ICortoRepository{
         return corto;
     }
 
+    /**
+     * Añade un nuevo cortometraje a la base de datos.
+     *
+     * @param corto El cortometraje que se va a añadir.
+     * @return El cortometraje añadido.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Corto addCorto(Corto corto) throws SQLException{
         String query = "{call crear_corto(?,?,?,?,?,?,?,?,?,?)}";
 
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
 
             cs.setString(1, corto.getTitulo());
             cs.setString(2, corto.getDescripcion());
@@ -114,12 +140,19 @@ public class CortoRepository implements ICortoRepository{
         return corto;
     }
 
+    /**
+     * Actualiza la información de un cortometraje en la base de datos.
+     *
+     * @param corto El cortometraje con la información actualizada.
+     * @return El número de filas afectadas por la actualización.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public int updateCorto(Corto corto) throws SQLException {
         String query = "{?= call actualizar_corto(?,?,?,?,?,?,?,?,?,?,?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setInt(2, corto.getId());
             cs.setString(3, corto.getTitulo());
@@ -138,6 +171,13 @@ public class CortoRepository implements ICortoRepository{
         return resultado;
     }
 
+    /**
+     * Obtiene los cortometrajes alquilados por un usuario.
+     *
+     * @param tag El ID del usuario.
+     * @return Una lista de cortometrajes alquilados por el usuario.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<Corto> getCortosAlquilados(String tag) throws SQLException {
         String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION," +
@@ -147,7 +187,7 @@ public class CortoRepository implements ICortoRepository{
                 "ON C.ID = A.ID_CONTENIDO WHERE ? = A.ID_USUARIO";
         List<Corto> cortos = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, tag);
             ResultSet rs = ps.executeQuery();
 

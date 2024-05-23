@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
-
 /**
  * Controlador para la gestión de series.
  * Este controlador maneja las solicitudes relacionadas con las series de la aplicación.
@@ -22,6 +21,11 @@ public class SerieController {
     @Autowired
     private SerieService serieService;
 
+    /**
+     * Obtiene todas las series.
+     *
+     * @return ResponseEntity con la lista de series y el estado HTTP OK.
+     */
     @GetMapping("/")
     public ResponseEntity<?> getSeries(){
         try {
@@ -31,6 +35,12 @@ public class SerieController {
         }
     }
 
+    /**
+     * Obtiene una serie por su ID.
+     *
+     * @param id el ID de la serie.
+     * @return ResponseEntity con la serie encontrada y el estado HTTP OK, o un mensaje de error y el estado HTTP correspondiente.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getSerieById(@PathVariable("id")int id){
         try {
@@ -40,6 +50,12 @@ public class SerieController {
         }
     }
 
+    /**
+     * Añade una nueva serie.
+     *
+     * @param serie la serie a añadir.
+     * @return ResponseEntity con la serie añadida y el estado HTTP OK, o un mensaje de error y el estado HTTP correspondiente.
+     */
     @PostMapping("/add")
     public ResponseEntity<?> addSerie(@RequestBody Serie serie){
         try {
@@ -49,6 +65,12 @@ public class SerieController {
         }
     }
 
+    /**
+     * Actualiza una serie existente.
+     *
+     * @param serie la serie a actualizar.
+     * @return ResponseEntity con la serie actualizada y el estado HTTP OK, o un mensaje de error y el estado HTTP correspondiente.
+     */
     @PutMapping("/update")
     public ResponseEntity<?> updateSerie(@RequestBody Serie serie){
         try {
@@ -58,6 +80,12 @@ public class SerieController {
         }
     }
 
+    /**
+     * Elimina una serie por su ID.
+     *
+     * @param id el ID de la serie a eliminar.
+     * @return ResponseEntity con el resultado de la eliminación y el estado HTTP OK, o un mensaje de error y el estado HTTP correspondiente.
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteSerie(@PathVariable("id")int id){
         try {
@@ -66,5 +94,4 @@ public class SerieController {
             return Response.response(e);
         }
     }
-
 }

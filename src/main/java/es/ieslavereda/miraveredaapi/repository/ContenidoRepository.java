@@ -24,6 +24,12 @@ public class ContenidoRepository implements IContenidoRepository{
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
+    /**
+     * Obtiene todos los contenidos disponibles, incluyendo películas, cortos y capítulos.
+     *
+     * @return Lista de todos los contenidos disponibles.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<Contenido> getContenidos() throws SQLException {
         List<Contenido> contenidos = new ArrayList<>();
@@ -35,6 +41,13 @@ public class ContenidoRepository implements IContenidoRepository{
         return contenidos;
     }
 
+    /**
+     * Obtiene el precio de un contenido específico según su ID.
+     *
+     * @param id El ID del contenido del cual se quiere obtener el precio.
+     * @return El precio del contenido.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public float getPrecio(int id) throws SQLException {
         String query = "SELECT TARIFA.PRECIO AS PRECIO_TARIFA " +
@@ -53,12 +66,21 @@ public class ContenidoRepository implements IContenidoRepository{
         return precio;
     }
 
+    /**
+     * Actualiza la puntuación de un contenido específico según su ID y el usuario que realiza la puntuación.
+     *
+     * @param id   El ID del contenido del cual se quiere actualizar la puntuación.
+     * @param tag  El ID del usuario que realiza la puntuación.
+     * @param punt La puntuación a asignar al contenido.
+     * @return El número de filas afectadas por la actualización.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public int updatePuntuacionById(int id, String tag, float punt) throws SQLException {
         String query = "{?= call actualizar_puntuacion(?,?,?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setInt(1, id);
             cs.setString(2, tag);
@@ -70,12 +92,20 @@ public class ContenidoRepository implements IContenidoRepository{
 
     }
 
+    /**
+     * Elimina un contenido de la base de datos según su ID y el tipo de contenido.
+     *
+     * @param id   El ID del contenido a eliminar.
+     * @param tipo El tipo de contenido a eliminar (película, corto, capítulo, etc.).
+     * @return El número de filas afectadas por la eliminación.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public int deleteContenido(int id, String tipo) throws SQLException {
         String query = "{?= call eliminar_contenido(?, ?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
             cs.setInt(2, id);
             cs.setString(3, tipo);
@@ -84,12 +114,20 @@ public class ContenidoRepository implements IContenidoRepository{
         }
         return resultado;
     }
-
+    /**
+     * Añade la puntuación de un contenido específico por parte de un usuario.
+     *
+     * @param id   El ID del contenido al cual se le añadirá la puntuación.
+     * @param tag  El ID del usuario que está añadiendo la puntuación.
+     * @param punt La puntuación a añadir.
+     * @return La puntuación añadida.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public float anyadirPuntuacion(int id, String tag, float punt) throws SQLException {
         String query = "{call añadir_puntuacion(?,?,?)}";
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setInt(1, id);
             ps.setString(2, tag);
             ps.setFloat(3, punt);
@@ -100,6 +138,13 @@ public class ContenidoRepository implements IContenidoRepository{
         return punt;
     }
 
+    /**
+     * Obtiene el contenido asociado a una línea de factura específica.
+     *
+     * @param id El ID de la línea de factura.
+     * @return El contenido asociado a la línea de factura.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Contenido getContenidoByIdLineaFactura(int id) throws SQLException {
         String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION,C.URL_IMAGEN," +
@@ -108,7 +153,7 @@ public class ContenidoRepository implements IContenidoRepository{
                 "ON C.ID = A.ID_CONTENIDO WHERE A.ID_LINEA = ?";
         Contenido contenido = null;
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -127,6 +172,7 @@ public class ContenidoRepository implements IContenidoRepository{
         }
         return contenido;
     }
+
 
 
 }

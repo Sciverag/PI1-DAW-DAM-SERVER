@@ -1,7 +1,6 @@
 package es.ieslavereda.miraveredaapi.repository;
 
 import es.ieslavereda.miraveredaapi.repository.model.Factura;
-import es.ieslavereda.miraveredaapi.repository.model.OracleDataSourceDB;
 import oracle.jdbc.datasource.impl.OracleDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +23,12 @@ public class FacturaRepository implements IFacturaRepository{
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
+    /**
+     * Obtiene todas las facturas almacenadas en la base de datos.
+     *
+     * @return Una lista de todas las facturas almacenadas en la base de datos.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<Factura> getFacturas() throws SQLException {
         String query = "SELECT * FROM FACTURA";
@@ -44,6 +49,13 @@ public class FacturaRepository implements IFacturaRepository{
         return facturas;
     }
 
+    /**
+     * Obtiene una factura por su ID.
+     *
+     * @param id El ID de la factura.
+     * @return La factura correspondiente al ID especificado.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Factura getFacturaById(int id) throws SQLException {
         String query = "SELECT * FROM FACTURA WHERE NUMERO = ?";
@@ -64,12 +76,19 @@ public class FacturaRepository implements IFacturaRepository{
         return factura;
     }
 
+    /**
+     * Obtiene una factura por el ID de usuario.
+     *
+     * @param tag El ID de usuario.
+     * @return La factura correspondiente al ID de usuario especificado.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Factura getFacturaByUsuarioId(String tag) throws SQLException {
         String query = "SELECT * FROM FACTURA WHERE ID_USUARIO = ?";
         Factura factura = null;
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, tag);
 
             ResultSet rs = ps.executeQuery();
@@ -83,11 +102,18 @@ public class FacturaRepository implements IFacturaRepository{
         return factura;
     }
 
+    /**
+     * Agrega una nueva factura a la base de datos.
+     *
+     * @param factura La factura que se va a añadir.
+     * @return La factura añadida.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Factura addFactura(Factura factura) throws SQLException {
         String query = "{call crear_factura(?)}";
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.setString(1, factura.getIdUsuario());
 
             if (cs.executeUpdate()<1){
@@ -97,6 +123,13 @@ public class FacturaRepository implements IFacturaRepository{
         return factura;
     }
 
+    /**
+     * Finaliza un pedido y obtiene la factura correspondiente al ID de usuario.
+     *
+     * @param tag El ID de usuario.
+     * @return La factura correspondiente al ID de usuario especificado.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Factura finalizarPedido(String tag) throws SQLException {
         String query = "{call finalizar_pedido(?)}";

@@ -12,6 +12,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repositorio para la gestión de capítulos.
+ * Proporciona métodos para acceder y manipular la información de los capítulos en la base de datos.
+ */
 @Repository
 public class CapituloRepository implements ICapituloRepository{
 
@@ -19,6 +23,12 @@ public class CapituloRepository implements ICapituloRepository{
     @Qualifier("BBDD")
     private OracleDataSource dataSource;
 
+    /**
+     * Obtiene todos los capítulos almacenados en la base de datos.
+     *
+     * @return Una lista de objetos Capitulo que representan todos los capítulos almacenados en la base de datos.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     public static List<Capitulo> getCapitulos() throws SQLException {
         OracleDataSource dataSource = OracleDataSourceDB.getOracleDataSource();
 
@@ -56,6 +66,13 @@ public class CapituloRepository implements ICapituloRepository{
         return capitulos;
     }
 
+    /**
+     * Obtiene un capítulo por su ID.
+     *
+     * @param id El ID del capítulo.
+     * @return El objeto Capitulo correspondiente al ID especificado.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Capitulo getCapituloById(int id) throws SQLException {
         String query = "SELECT c.ID AS ID_CONTENIDO, c.TITULO, " +
@@ -89,6 +106,13 @@ public class CapituloRepository implements ICapituloRepository{
         return capitulo;
     }
 
+    /**
+     * Obtiene todos los capítulos de una serie específica.
+     *
+     * @param id El ID de la serie.
+     * @return Una lista de objetos Capitulo que representan los capítulos de la serie especificada.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<Capitulo> getCapitulosBySerie(int id) throws SQLException {
         String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION,C.URL_IMAGEN,C.ACTORES," +
@@ -98,7 +122,7 @@ public class CapituloRepository implements ICapituloRepository{
 
         List<Capitulo> capitulos = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
@@ -122,12 +146,18 @@ public class CapituloRepository implements ICapituloRepository{
         return capitulos;
 
     }
-
+    /**
+     * Agrega un nuevo capítulo a la base de datos.
+     *
+     * @param capitulo El capítulo que se va a agregar.
+     * @return El capítulo agregado.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public Capitulo addCapitulo(Capitulo capitulo) throws SQLException {
         String query = "{call crear_capitulo(?,?,?,?,?,?,?,?,?,?,?,?)}";
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
 
             cs.setString(1, capitulo.getTitulo());
             cs.setString(2, capitulo.getDescripcion());
@@ -149,12 +179,19 @@ public class CapituloRepository implements ICapituloRepository{
         return capitulo;
     }
 
+    /**
+     * Actualiza un capítulo en la base de datos.
+     *
+     * @param capitulo El capítulo que se va a actualizar.
+     * @return El número de filas afectadas por la actualización.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public int updateCapitulo(Capitulo capitulo) throws SQLException {
         String query = "{?= call  actualizar_capitulo(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
         int resultado = 0;
         try (Connection connection = dataSource.getConnection();
-        CallableStatement cs = connection.prepareCall(query)){
+             CallableStatement cs = connection.prepareCall(query)){
             cs.registerOutParameter(1, Types.INTEGER);
 
             cs.setInt(2, capitulo.getId());
@@ -177,6 +214,13 @@ public class CapituloRepository implements ICapituloRepository{
         return resultado;
     }
 
+    /**
+     * Obtiene los capítulos alquilados por un usuario específico.
+     *
+     * @param tag El ID del usuario.
+     * @return Una lista de capítulos alquilados por el usuario.
+     * @throws SQLException Si ocurre algún error al acceder a la base de datos.
+     */
     @Override
     public List<Capitulo> getCapitulosAlquilados(String tag) throws SQLException {
         String query = "SELECT C.ID,C.TITULO,C.DESCRIPCION," +
@@ -186,7 +230,7 @@ public class CapituloRepository implements ICapituloRepository{
                 "JOIN ALQUILA A ON C.ID = A.ID_CONTENIDO WHERE ? = A.ID_USUARIO";
         List<Capitulo> capitulos = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
+             PreparedStatement ps = connection.prepareStatement(query)){
             ps.setString(1, tag);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
@@ -207,4 +251,5 @@ public class CapituloRepository implements ICapituloRepository{
         }
         return capitulos;
     }
+
 }

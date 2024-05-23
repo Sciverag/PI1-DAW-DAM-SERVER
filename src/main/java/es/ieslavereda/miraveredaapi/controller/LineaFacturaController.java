@@ -21,6 +21,12 @@ public class LineaFacturaController {
     @Autowired
     private LineaFacturaService lineaFacturaService;
 
+    /**
+     * Obtiene las líneas de factura por el ID de la factura.
+     *
+     * @param id el ID de la factura.
+     * @return ResponseEntity con la lista de líneas de factura y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/&factura={id}")
     public ResponseEntity<?> getFacturasByIdFactura(@PathVariable("id") int id) {
         try {
@@ -30,15 +36,27 @@ public class LineaFacturaController {
         }
     }
 
+    /**
+     * Obtiene una línea de factura por su ID.
+     *
+     * @param id el ID de la línea de factura.
+     * @return ResponseEntity con la línea de factura y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getFacturaById(@PathVariable("id") int id){
         try {
-            return new ResponseEntity(lineaFacturaService.getLineaFacturaById(id), HttpStatus.OK);
+            return new ResponseEntity<>(lineaFacturaService.getLineaFacturaById(id), HttpStatus.OK);
         } catch (SQLException e){
             return Response.response(e);
         }
     }
 
+    /**
+     * Obtiene las líneas de factura por el ID del carro de compra.
+     *
+     * @param id el ID del carro de compra.
+     * @return ResponseEntity con la lista de líneas de factura y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @GetMapping("/&carro={id}")
     public ResponseEntity<?> getLineaFacturasByIdCarro(@PathVariable("id") int id){
         try {
@@ -48,6 +66,12 @@ public class LineaFacturaController {
         }
     }
 
+    /**
+     * Elimina una línea de factura por su ID.
+     *
+     * @param id el ID de la línea de factura.
+     * @return ResponseEntity con el resultado de la operación y el estado HTTP OK si tiene éxito, o un mensaje de error y el estado HTTP correspondiente si falla.
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteLineaFacturaById(@PathVariable("id")int id){
         try {
@@ -56,5 +80,4 @@ public class LineaFacturaController {
             return Response.response(e);
         }
     }
-
 }
