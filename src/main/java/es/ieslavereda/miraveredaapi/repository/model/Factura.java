@@ -38,7 +38,7 @@ public class Factura {
     /**
      * El ID del usuario al que pertenece la factura.
      */
-    private int idUsuario;
+    private String idUsuario;
 
     /**
      * Compara este objeto con otro para determinar si son iguales.

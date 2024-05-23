@@ -71,8 +71,10 @@ public class CarroCompraRepository implements ICarroCompraRepository{
             cs.setString(1, tag);
             cs.setInt(2, id);
 
-            cs.executeUpdate();
-            carroCompra = getCarroCompraById(id);
+
+            if (cs.executeUpdate()>0) {
+                carroCompra = getCarroCompraByUsuarioId(tag);
+            }
         }
         return carroCompra;
     }

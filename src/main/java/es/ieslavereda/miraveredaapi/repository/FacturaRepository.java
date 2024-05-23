@@ -37,7 +37,7 @@ public class FacturaRepository implements IFacturaRepository{
                         .fecha(rs.getDate(2))
                         .importe_base(rs.getDouble(3))
                         .importe_IVA(rs.getDouble(4))
-                        .idUsuario(rs.getInt(5)).build());
+                        .idUsuario(rs.getString(5)).build());
             }
 
         }
@@ -58,7 +58,7 @@ public class FacturaRepository implements IFacturaRepository{
                     .fecha(rs.getDate(2))
                     .importe_base(rs.getDouble(3))
                     .importe_IVA(rs.getDouble(4))
-                    .idUsuario(rs.getInt(5)).build();
+                    .idUsuario(rs.getString(5)).build();
 
         }
         return factura;
@@ -78,7 +78,7 @@ public class FacturaRepository implements IFacturaRepository{
                     .fecha(rs.getDate(2))
                     .importe_base(rs.getDouble(3))
                     .importe_IVA(rs.getDouble(4))
-                    .idUsuario(rs.getInt(5)).build();
+                    .idUsuario(rs.getString(5)).build();
         }
         return factura;
     }
@@ -88,7 +88,7 @@ public class FacturaRepository implements IFacturaRepository{
         String query = "{call crear_factura(?)}";
         try (Connection connection = dataSource.getConnection();
         CallableStatement cs = connection.prepareCall(query)){
-            cs.setInt(1, factura.getIdUsuario());
+            cs.setString(1, factura.getIdUsuario());
 
             if (cs.executeUpdate()<1){
                 factura = null;
